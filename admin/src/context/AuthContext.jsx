@@ -96,8 +96,17 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('essential_user');
   };
 
+  // Update current user details
+  const updateCurrentUserDetails = (updatedData) => {
+    if (user) {
+      const mergedUser = { ...user, ...updatedData };
+      setUser(mergedUser);
+      localStorage.setItem('essential_user', JSON.stringify(mergedUser));
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, error, isDemoMode, login, logout, API_URL }}>
+    <AuthContext.Provider value={{ user, loading, error, isDemoMode, login, logout, API_URL, updateCurrentUserDetails }}>
       {children}
     </AuthContext.Provider>
   );

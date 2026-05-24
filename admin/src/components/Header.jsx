@@ -1,12 +1,116 @@
 import React, { useContext, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import './Header.css';
 
 const Header = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, API_URL, updateCurrentUserDetails } = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const [settingsFormData, setSettingsFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [settingsError, setSettingsError] = useState('');
+  const [settingsSuccess, setSettingsSuccess] = useState('');
+
+  const handleOpenSettings = () => {
+    if (user) {
+      setSettingsFormData({
+        username: user.username,
+        email: user.email,
+        password: '',
+        confirmPassword: ''
+      });
+    }
+    setSettingsError('');
+    setSettingsSuccess('');
+    setIsSettingsOpen(true);
+    setShowDropdown(false);
+  };
+
+  const handleSettingsSubmit = async (e) => {
+    e.preventDefault();
+    setSettingsError('');
+    setSettingsSuccess('');
+
+    if (!settingsFormData.username || !settingsFormData.email) {
+      setSettingsError('Vui lòng điền đầy đủ tên đăng nhập và email.');
+      return;
+    }
+
+    if (settingsFormData.password && settingsFormData.password !== settingsFormData.confirmPassword) {
+      setSettingsError('Mật khẩu nhập lại không trùng khớp.');
+      return;
+    }
+
+    setSettingsLoading(true);
+    try {
+      if (user.isDemo) {
+        // Demo Mode Fallback
+        const updatedInfo = {
+          username: settingsFormData.username,
+          email: settingsFormData.email
+        };
+        updateCurrentUserDetails(updatedInfo);
+
+        // Update list of users in demo LocalStorage
+        const localUsers = localStorage.getItem('essential_local_users');
+        if (localUsers) {
+          const parsed = JSON.parse(localUsers);
+          const updatedList = parsed.map(u => u._id === user._id ? { ...u, username: settingsFormData.username, email: settingsFormData.email } : u);
+          localStorage.setItem('essential_local_users', JSON.stringify(updatedList));
+        }
+
+        setSettingsSuccess('Cập nhật tài khoản Admin Demo thành công!');
+        setTimeout(() => setIsSettingsOpen(false), 2000);
+      } else {
+        // Real API call
+        const payload = {
+          username: settingsFormData.username,
+          email: settingsFormData.email,
+          role: user.role
+        };
+        if (settingsFormData.password) {
+          payload.password = settingsFormData.password;
+        }
+
+        const response = await fetch(`${API_URL}/users/${user._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Cập nhật thông tin tài khoản thất bại.');
+        }
+
+        // Sync local context state
+        updateCurrentUserDetails({
+          username: data.username,
+          email: data.email
+        });
+
+        setSettingsSuccess('Đã cập nhật thông tin tài khoản quản trị thành công!');
+        setSettingsFormData(prev => ({ ...prev, password: '', confirmPassword: '' }));
+        setTimeout(() => setIsSettingsOpen(false), 2000);
+      }
+    } catch (err) {
+      setSettingsError(err.message);
+    } finally {
+      setSettingsLoading(false);
+    }
+  };
 
   return (
     <header className="admin-header-container glass">
@@ -43,7 +147,10 @@ const Header = () => {
 
             {showDropdown && (
               <div className="profile-dropdown glass">
-                <button className="dropdown-item logout" onClick={() => { logout(); navigate('/'); }}>
+                <button className="dropdown-item" onClick={handleOpenSettings} style={{ display: 'block', width: '100%', border: 'none', background: 'none' }}>
+                  ⚙️ Cài đặt tài khoản
+                </button>
+                <button className="dropdown-item logout" onClick={() => { logout(); navigate('/'); }} style={{ display: 'block', width: '100%', border: 'none', background: 'none' }}>
                   🔒 Đăng xuất
                 </button>
               </div>
@@ -51,6 +158,91 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      {/* Account Settings Modal */}
+      {isSettingsOpen && createPortal(
+        <div className="modal-overlay" onClick={() => setIsSettingsOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3 className="modal-title">⚙️ THÀNH VIÊN QUẢN TRỊ</h3>
+              <button className="modal-close-btn" onClick={() => setIsSettingsOpen(false)}>✕</button>
+            </div>
+            
+            <form onSubmit={handleSettingsSubmit}>
+              <div className="modal-body">
+                {settingsSuccess && (
+                  <div className="auth-alert success animate-fade-in">
+                    ✅ {settingsSuccess}
+                  </div>
+                )}
+                {settingsError && (
+                  <div className="auth-alert error animate-fade-in">
+                    ⚠️ {settingsError}
+                  </div>
+                )}
+
+                <div className="form-group">
+                  <label className="form-label" htmlFor="s-username">Tên tài khoản (Username) *</label>
+                  <input
+                    type="text"
+                    id="s-username"
+                    className="form-input"
+                    value={settingsFormData.username}
+                    onChange={(e) => setSettingsFormData({ ...settingsFormData, username: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label" htmlFor="s-email">Địa chỉ Email *</label>
+                  <input
+                    type="email"
+                    id="s-email"
+                    className="form-input"
+                    value={settingsFormData.email}
+                    onChange={(e) => setSettingsFormData({ ...settingsFormData, email: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label" htmlFor="s-password">Mật khẩu mới (Để trống nếu không đổi)</label>
+                  <input
+                    type="password"
+                    id="s-password"
+                    className="form-input"
+                    placeholder="••••••••"
+                    value={settingsFormData.password}
+                    onChange={(e) => setSettingsFormData({ ...settingsFormData, password: e.target.value })}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label" htmlFor="s-confirm">Nhập lại mật khẩu mới</label>
+                  <input
+                    type="password"
+                    id="s-confirm"
+                    className="form-input"
+                    placeholder="••••••••"
+                    value={settingsFormData.confirmPassword}
+                    onChange={(e) => setSettingsFormData({ ...settingsFormData, confirmPassword: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={() => setIsSettingsOpen(false)}>
+                  Hủy bỏ
+                </button>
+                <button type="submit" className="btn btn-primary" disabled={settingsLoading}>
+                  {settingsLoading ? 'Đang cập nhật...' : 'Cập nhật tài khoản'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>,
+        document.body
+      )}
     </header>
   );
 };
