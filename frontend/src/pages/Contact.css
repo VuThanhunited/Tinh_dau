@@ -1,6 +1,6 @@
-/* ─── Green Fresh Editorial Banner ───────────────────────────────────── */
+/* ─── Purple Editorial Banner ───────────────────────────────────── */
 .contact-editorial-banner {
-  background: linear-gradient(135deg, #2E7D32, #4CAF50);
+  background: linear-gradient(135deg, #56258e, #7e57c2);
   padding: 6rem 0 5rem;
   color: #fff;
   position: relative;
@@ -125,7 +125,7 @@
 .section-subtitle {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #2E7D32;
+  color: #56258e;
   margin-bottom: 1.5rem;
   letter-spacing: 0.3px;
 }
@@ -151,12 +151,12 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.15);
+  box-shadow: 0 4px 10px rgba(106, 53, 159, 0.15);
 }
 
 .contact-icon-wrapper.green-bg {
-  background: #E8F5E9;
-  color: #2E7D32;
+  background: #F3E5F5;
+  color: #56258e;
 }
 
 .contact-svg-icon {
@@ -168,7 +168,7 @@
   font-size: 1.5rem;
   font-weight: 800;
   font-family: Arial, sans-serif;
-  color: #2E7D32;
+  color: #56258e;
 }
 
 .item-text-box .item-value {
@@ -182,7 +182,7 @@
 }
 
 .fanpage-link {
-  color: #2E7D32;
+  color: #56258e;
   text-decoration: none;
   font-size: 1.05rem;
   transition: opacity 0.2s;
@@ -195,17 +195,17 @@
 
 /* Right Column: Form Đăng ký tư vấn */
 .contact-form-box {
-  background: #F1F8F5;
+  background: #FAF5FF;
   border-radius: 24px;
   padding: 3rem;
-  border: 1px solid rgba(76, 175, 80, 0.12);
-  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.03);
+  border: 1px solid rgba(106, 53, 159, 0.12);
+  box-shadow: 0 10px 30px rgba(106, 53, 159, 0.03);
 }
 
 .form-title {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #1b5e20;
+  color: #4a148c;
   text-align: center;
   margin-bottom: 2.5rem;
   letter-spacing: 0.5px;
@@ -234,7 +234,7 @@
   width: 100%;
   padding: 0.85rem 1.25rem;
   border-radius: 12px;
-  border: 1px solid #C8E6C9;
+  border: 1px solid #E1BEE7;
   background: #fff;
   font-size: 1rem;
   color: #374151;
@@ -244,8 +244,8 @@
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: #2E7D32;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+  border-color: #6A359F;
+  box-shadow: 0 0 0 3px rgba(106, 53, 159, 0.15);
 }
 
 .form-input::placeholder,
@@ -254,7 +254,7 @@
 }
 
 .btn-submit-contact {
-  background: #2E7D32;
+  background: #6A359F;
   color: #fff;
   border: none;
   padding: 1.1rem;
@@ -263,14 +263,14 @@
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s;
-  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.25);
+  box-shadow: 0 4px 15px rgba(106, 53, 159, 0.25);
   margin-top: 1rem;
 }
 
 .btn-submit-contact:hover {
-  background: #1B5E20;
+  background: #56258E;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.35);
+  box-shadow: 0 6px 20px rgba(86, 37, 142, 0.35);
 }
 
 /* Toast custom contact toast style */
@@ -280,7 +280,7 @@
   right: 2rem;
   z-index: 9999;
   background: rgba(255, 255, 255, 0.97);
-  border-left: 5px solid #2E7D32;
+  border-left: 5px solid #6A359F;
   padding: 1.1rem 1.75rem;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
