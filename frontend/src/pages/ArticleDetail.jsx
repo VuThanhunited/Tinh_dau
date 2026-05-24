@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import Header from '../components/Header';
+import { getImageUrl } from '../utils/image';
 import './ArticleDetail.css';
 
 const ArticleDetail = () => {
@@ -174,7 +175,7 @@ Hít ngửi tinh dầu chanh giúp kích thích sản sinh serotonin trong não 
       <Header />
 
       {/* Editor Banner Header */}
-      <section className="article-editorial-header" style={{ backgroundImage: `linear-gradient(rgba(45, 55, 72, 0.4), rgba(45, 55, 72, 0.85)), url(${article.image})` }}>
+      <section className="article-editorial-header" style={{ backgroundImage: `linear-gradient(rgba(45, 55, 72, 0.4), rgba(45, 55, 72, 0.85)), url(${getImageUrl(article.image)})` }}>
         <div className="container header-editorial-content animate-fade-in">
           <div className="article-badge-row">
             <span className="badge-editorial">
@@ -238,7 +239,7 @@ Hít ngửi tinh dầu chanh giúp kích thích sản sinh serotonin trong não 
                 {latestArticles.map(la => (
                   <div className="sidebar-article-item" key={la._id} onClick={() => navigate(`/article/${la._id}`)}>
                     <div className="item-img-box">
-                      <img src={la.image} alt={la.title} />
+                      <img src={getImageUrl(la.image)} alt={la.title} />
                     </div>
                     <div className="item-info-box">
                       <h4 className="item-title">{la.title}</h4>

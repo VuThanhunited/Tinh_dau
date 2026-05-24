@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import Header from '../components/Header';
+import { getImageUrl } from '../utils/image';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -159,12 +160,12 @@ const ProductDetail = () => {
           {/* Left Side: Images */}
           <div className="product-detail-media">
             <div className="main-image-wrapper glass">
-              <img src={product.image} alt={product.name} className="main-image" />
+              <img src={getImageUrl(product.image)} alt={product.name} className="main-image" />
               {discount > 0 && <span className="detail-sale-badge">Sale -{discount}%</span>}
             </div>
             <div className="thumbnail-gallery">
               <div className="thumbnail-item active glass">
-                <img src={product.image} alt="" />
+                <img src={getImageUrl(product.image)} alt="" />
               </div>
               {/* Optional dummy thumbnails for high fidelity feel */}
               <div className="thumbnail-item glass">
@@ -383,7 +384,7 @@ const ProductDetail = () => {
               <div className="product-card-v2" key={p._id} onClick={() => navigate(`/product/${p._id}`)} style={{cursor: 'pointer'}}>
                 {disc > 0 && <span className="badge badge-sale">-{disc}%</span>}
                 <div className="product-img-box">
-                  <img src={p.image} alt={p.name} />
+                  <img src={getImageUrl(p.image)} alt={p.name} />
                 </div>
                 <div className="product-card-v2-info">
                   <h3 className="product-v2-name">{p.name}</h3>

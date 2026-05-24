@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getImageUrl } from '../utils/image';
 import './DashboardView.css';
 
 const DashboardView = ({ API_URL, user }) => {
@@ -162,7 +163,7 @@ const DashboardView = ({ API_URL, user }) => {
             <div className="recent-list">
               {recentProducts.map(p => (
                 <div key={p._id} className="recent-item">
-                  <img src={p.image} alt={p.name} className="recent-item-img" />
+                  <img src={getImageUrl(p.image)} alt={p.name} className="recent-item-img" />
                   <div className="recent-item-info">
                     <span className="recent-item-name">{p.name}</span>
                     <span className="recent-item-category">{p.category}</span>

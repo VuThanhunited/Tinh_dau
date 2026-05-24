@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import Header from '../components/Header';
+import { getImageUrl } from '../utils/image';
 import './About.css';
 
 const About = () => {
@@ -134,7 +135,7 @@ const About = () => {
                 {newProducts.map(p => (
                   <div className="sidebar-product-item" key={p._id} onClick={() => navigate(`/product/${p._id}`)}>
                     <div className="item-img-box">
-                      <img src={p.image} alt={p.name} />
+                      <img src={getImageUrl(p.image)} alt={p.name} />
                     </div>
                     <div className="item-info-box">
                       <h4 className="item-title">{p.name}</h4>
@@ -152,7 +153,7 @@ const About = () => {
                 {newArticles.map(a => (
                   <div className="sidebar-article-item" key={a._id} onClick={() => navigate(`/article/${a._id}`)}>
                     <div className="item-img-box">
-                      <img src={a.image} alt={a.title} />
+                      <img src={getImageUrl(a.image)} alt={a.title} />
                     </div>
                     <div className="item-info-box">
                       <h4 className="item-title">{a.title}</h4>

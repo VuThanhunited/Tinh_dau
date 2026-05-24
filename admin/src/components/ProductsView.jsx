@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { getImageUrl } from '../utils/image';
 import './ProductsView.css';
 
 const ProductsView = ({ API_URL, user }) => {
@@ -339,7 +340,7 @@ const ProductsView = ({ API_URL, user }) => {
               {filteredProducts.map(p => (
                 <tr key={p._id}>
                   <td>
-                    <img src={p.image} alt={p.name} className="product-thumb-img" />
+                    <img src={getImageUrl(p.image)} alt={p.name} className="product-thumb-img" />
                   </td>
                   <td>
                     <div className="product-table-name-desc">

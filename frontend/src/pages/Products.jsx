@@ -3,6 +3,7 @@ import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import Header from '../components/Header';
+import { getImageUrl } from '../utils/image';
 import './Products.css';
 
 const Products = () => {
@@ -244,7 +245,7 @@ const Products = () => {
                     {discount > 0 && <span className="card-sale-badge">-{discount}%</span>}
 
                     <div className="product-image-container">
-                      <img src={product.image} alt={product.name} />
+                      <img src={getImageUrl(product.image)} alt={product.name} />
                       <div className="card-hover-actions">
                         <button
                           className={`action-btn-pill wishlist ${inWishlist ? 'active' : ''}`}

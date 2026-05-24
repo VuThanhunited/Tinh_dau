@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import Header from '../components/Header';
+import { getImageUrl } from '../utils/image';
 import './Home.css';
 
 /* ─── Countdown Hook ─────────────────────────────────────────────── */
@@ -371,7 +372,7 @@ const Home = () => {
                       {disc > 0 && <span className="badge badge-sale">-{disc}%</span>}
                       <div className="product-img-box">
                         <Link to={`/product/${product._id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
-                          <img src={product.image} alt={product.name} />
+                          <img src={getImageUrl(product.image)} alt={product.name} />
                         </Link>
                         <div className="product-card-actions">
                           <button className={`action-btn wishlist-btn ${inWishlist ? 'active' : ''}`} onClick={() => toggleWishlist(product)} title="Yêu thích">
@@ -454,7 +455,7 @@ const Home = () => {
                 <Link to={`/article/${article._id}`} className="article-card-v2-link" key={article._id} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
                   <article className="article-card-v2">
                     <div className="article-img-box">
-                      <img src={article.image} alt={article.title} />
+                      <img src={getImageUrl(article.image)} alt={article.title} />
                       <span className="article-date-badge">{article.date || '15/03/2026'}</span>
                     </div>
                     <div className="article-card-v2-body">
@@ -491,7 +492,7 @@ const Home = () => {
                 <div className="cart-drawer-items">
                   {cartItems.map(item => (
                     <div className="cart-drawer-item glass" key={item._id}>
-                      <img src={item.image} alt={item.name} />
+                      <img src={getImageUrl(item.image)} alt={item.name} />
                       <div className="item-info">
                         <h4>{item.name}</h4>
                         <span className="item-price">{formatVND(item.salePrice)}</span>

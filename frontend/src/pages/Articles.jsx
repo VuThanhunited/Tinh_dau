@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import Header from '../components/Header';
+import { getImageUrl } from '../utils/image';
 import './Articles.css';
 
 const Articles = () => {
@@ -107,7 +108,7 @@ const Articles = () => {
                 onClick={() => navigate(`/article/${article._id}`)}
               >
                 <div className="article-img-box">
-                  <img src={article.image} alt={article.title} />
+                  <img src={getImageUrl(article.image)} alt={article.title} />
                   <span className="article-date-badge">{article.date || '15/03/2026'}</span>
                 </div>
                 <div className="article-card-body">
