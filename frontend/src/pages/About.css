@@ -1,0 +1,234 @@
+/* ─── About Page Layout Grid ─────────────────────────────────────────── */
+.about-page {
+  background: #FAF8FD;
+  min-height: 100vh;
+}
+
+.about-content-section {
+  padding: 4rem 0;
+}
+
+.about-layout-grid {
+  display: grid;
+  grid-template-columns: 2.3fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* Left Column: Brand Story */
+.about-brand-story {
+  background: #fff;
+  border-radius: 24px;
+  padding: 3rem;
+  border: 1px solid rgba(126, 87, 194, 0.06);
+  box-shadow: 0 10px 40px rgba(94, 53, 177, 0.02);
+}
+
+.about-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #2D3748;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid rgba(126, 87, 194, 0.1);
+  padding-bottom: 0.75rem;
+}
+
+.story-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #5E35B1;
+  margin: 2rem 0 1rem;
+}
+
+.story-paragraph {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: #4A5568;
+  margin-bottom: 1.5rem;
+  text-align: justify;
+}
+
+.story-img-banner {
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 2rem 0;
+  border: 1px solid rgba(126, 87, 194, 0.08);
+  aspect-ratio: 16/9;
+}
+
+.story-img-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.story-img-banner:hover img {
+  transform: scale(1.03);
+}
+
+.quote-banner {
+  background: linear-gradient(135deg, rgba(126, 87, 194, 0.05), rgba(94, 53, 177, 0.08));
+  border-left: 5px solid #5E35B1;
+  padding: 1.5rem 2rem;
+  border-radius: 0 16px 16px 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #5E35B1;
+  margin: 2.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.quote-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  font-family: Georgia, serif;
+  color: rgba(94, 53, 177, 0.3);
+}
+
+/* Meaning List */
+.meaning-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 1.5rem 0 2.5rem;
+  padding-left: 0.5rem;
+}
+
+.meaning-list li {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #4A5568;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.meaning-letter {
+  background: #5E35B1;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  flex-shrink: 0;
+  box-shadow: 0 3px 6px rgba(94, 53, 177, 0.2);
+}
+
+/* ─── Sidebar widgets ─────────────────────────────────────────────── */
+.about-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebar-products-list,
+.sidebar-articles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sidebar-product-item,
+.sidebar-article-item {
+  display: flex;
+  gap: 1rem;
+  cursor: pointer;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.sidebar-product-item:hover,
+.sidebar-article-item:hover {
+  transform: translateX(4px);
+}
+
+.sidebar-product-item .item-img-box,
+.sidebar-article-item .item-img-box {
+  width: 65px;
+  height: 65px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #EDF2F7;
+  border: 1px solid rgba(126, 87, 194, 0.05);
+}
+
+.sidebar-product-item .item-img-box img,
+.sidebar-article-item .item-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sidebar-product-item .item-info-box,
+.sidebar-article-item .item-info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar-product-item .item-title,
+.sidebar-article-item .item-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2D3748;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.sidebar-product-item:hover .item-title,
+.sidebar-article-item:hover .item-title {
+  color: #5E35B1;
+}
+
+.sidebar-product-item .item-price {
+  font-size: 0.9rem;
+  color: #5E35B1;
+  font-weight: 700;
+}
+
+.sidebar-article-item .item-date {
+  font-size: 0.8rem;
+  color: #A0AEC0;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 992px) {
+  .about-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-brand-story {
+    padding: 2rem 1.5rem;
+  }
+  
+  .about-title {
+    font-size: 1.8rem;
+  }
+  
+  .story-heading {
+    font-size: 1.3rem;
+  }
+  
+  .story-paragraph {
+    font-size: 1rem;
+  }
+  
+  .quote-banner {
+    font-size: 1.1rem;
+    padding: 1rem 1.5rem;
+  }
+}

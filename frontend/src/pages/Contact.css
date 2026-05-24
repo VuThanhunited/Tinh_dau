@@ -1,0 +1,360 @@
+/* ─── Green Fresh Editorial Banner ───────────────────────────────────── */
+.contact-editorial-banner {
+  background: linear-gradient(135deg, #2E7D32, #4CAF50);
+  padding: 6rem 0 5rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-banner-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.banner-breadcrumb {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-bottom: 0.8rem;
+  display: inline-block;
+}
+
+.banner-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.banner-desc {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  opacity: 0.95;
+}
+
+/* Banner Right Image Visual */
+.contact-banner-visual {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.herb-visual-wrapper {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.herb-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+}
+
+.visual-circle {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.visual-circle.circle-1 {
+  top: 10px;
+  left: -10px;
+  animation: float 4s ease-in-out infinite;
+}
+
+.visual-circle.circle-2 {
+  bottom: 20px;
+  right: -15px;
+  animation: float 4s ease-in-out infinite 1.5s;
+}
+
+.visual-circle.circle-3 {
+  top: 50%;
+  right: -25px;
+  transform: translateY(-50%);
+  animation: float 4s ease-in-out infinite 0.7s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ─── Main Content Layout ─────────────────────────────────────────── */
+.contact-page {
+  background: #FAF9F6;
+  min-height: 100vh;
+}
+
+.contact-main-section {
+  padding: 4rem 0;
+}
+
+.contact-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* Left Column: Contact details */
+.contact-details-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-subtitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2E7D32;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.3px;
+}
+
+.contact-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.5rem 0;
+}
+
+.contact-icon-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.15);
+}
+
+.contact-icon-wrapper.green-bg {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.contact-svg-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.facebook-icon-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: Arial, sans-serif;
+  color: #2E7D32;
+}
+
+.item-text-box .item-value {
+  font-size: 1.05rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.item-text-box .font-semibold {
+  font-weight: 600;
+}
+
+.fanpage-link {
+  color: #2E7D32;
+  text-decoration: none;
+  font-size: 1.05rem;
+  transition: opacity 0.2s;
+}
+
+.fanpage-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+/* Right Column: Form Đăng ký tư vấn */
+.contact-form-box {
+  background: #F1F8F5;
+  border-radius: 24px;
+  padding: 3rem;
+  border: 1px solid rgba(76, 175, 80, 0.12);
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.03);
+}
+
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1b5e20;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.5px;
+}
+
+.actual-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #C8E6C9;
+  background: #fff;
+  font-size: 1rem;
+  color: #374151;
+  transition: all 0.3s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #2E7D32;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #9CA3AF;
+}
+
+.btn-submit-contact {
+  background: #2E7D32;
+  color: #fff;
+  border: none;
+  padding: 1.1rem;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.25);
+  margin-top: 1rem;
+}
+
+.btn-submit-contact:hover {
+  background: #1B5E20;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.35);
+}
+
+/* Toast custom contact toast style */
+.contact-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.97);
+  border-left: 5px solid #2E7D32;
+  padding: 1.1rem 1.75rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.contact-toast .toast-icon {
+  font-size: 1.3rem;
+}
+
+.contact-toast .toast-text {
+  color: #1F2937;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.contact-toast .toast-close {
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  font-size: 1rem;
+  padding-left: 0.5rem;
+  transition: color 0.2s;
+}
+
+.contact-toast .toast-close:hover {
+  color: #EF4444;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 992px) {
+  .contact-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-editorial-banner {
+    padding: 4rem 0 3rem;
+  }
+  
+  .contact-banner-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .contact-banner-visual {
+    display: none; /* Hide visual on mobile to look neat */
+  }
+  
+  .banner-title {
+    font-size: 2.2rem;
+  }
+  
+  .banner-desc {
+    font-size: 1rem;
+  }
+  
+  .contact-form-box {
+    padding: 2rem 1.5rem;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .contact-toast {
+    left: 1rem;
+    right: 1rem;
+    bottom: 2rem;
+  }
+}

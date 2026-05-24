@@ -1,0 +1,58 @@
+/* Users Management View CSS */
+
+.admin-users-view {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.user-table-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: var(--gray-100);
+  border: 1.5px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+}
+
+.user-table-username {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.user-table-email {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.user-table-role-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--border-radius-full);
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.user-table-role-badge.admin {
+  background-color: #FAF5FF;
+  color: #805AD5;
+  border: 1px solid #E9D8FD;
+}
+
+.user-table-role-badge.client {
+  background-color: #EDF2F7;
+  color: #4A5568;
+  border: 1px solid #E2E8F0;
+}
+
+.user-table-date {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}

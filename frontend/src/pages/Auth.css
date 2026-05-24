@@ -1,0 +1,159 @@
+/* Auth Page Styles */
+
+.auth-main-container {
+  min-height: calc(100vh - 180px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-flex-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-form-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 3rem;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.auth-card-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-card-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.auth-card-header p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Alert components */
+.auth-alert {
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-md);
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.auth-alert.error {
+  background-color: #FED7D7;
+  color: #C53030;
+  border: 1px solid #FEB2B2;
+}
+
+.auth-alert.success {
+  background-color: #C6F6D5;
+  color: #22543D;
+  border: 1px solid #9AE6B4;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-submit-btn {
+  margin-top: 1rem;
+  width: 100%;
+  border-radius: var(--border-radius-md);
+}
+
+.auth-mode-switch {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.switch-mode-link {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.switch-mode-link:hover {
+  color: var(--primary-dark);
+}
+
+/* Demo accounts helper tool */
+.demo-accounts-helper {
+  margin-top: 2rem;
+  border-top: 1px dashed var(--gray-300);
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.demo-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  display: block;
+}
+
+.demo-btn-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.demo-btn {
+  padding: 0.5rem;
+  border-radius: var(--border-radius-md);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.admin-demo-btn {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.admin-demo-btn:hover {
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+.client-demo-btn {
+  background-color: var(--gray-100);
+  color: var(--text-dark);
+  border: 1px solid var(--gray-200);
+}
+
+.client-demo-btn:hover {
+  background-color: var(--gray-200);
+}
+
+.demo-credentials-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.demo-credentials-text span {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .auth-form-card {
+    padding: 2rem 1.5rem;
+  }
+}
