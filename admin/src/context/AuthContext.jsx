@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [isDemoMode, setIsDemoMode] = useState(false);
 
-  const API_URL = 'http://localhost:5000/api';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://tinh-dau.onrender.com/api';
 
   useEffect(() => {
     const storedUser = localStorage.getItem('essential_user');
