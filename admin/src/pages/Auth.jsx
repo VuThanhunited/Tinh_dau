@@ -37,14 +37,7 @@ const Auth = () => {
     }
   };
 
-  const handleQuickAdminLogin = async () => {
-    setLocalError('');
-    setLocalSuccess('');
-    try {
-      await login('admin@gmail.com', 'admin123');
-      setLocalSuccess('Đăng nhập Quản trị viên Thử nghiệm thành công!');
-    } catch (err) {}
-  };
+
 
   return (
     <div className="admin-auth-page bg-lavender-gradient">
@@ -110,19 +103,6 @@ const Auth = () => {
             </button>
           </form>
 
-          {/* Quick Demo Helper */}
-          <div className="admin-quick-login-helper">
-            <button 
-              className="btn-quick-admin-login"
-              onClick={handleQuickAdminLogin}
-              disabled={loading}
-            >
-              ⚡ Đăng Nhập Nhanh Trải Nghiệm (Admin Demo)
-            </button>
-            <div className="quick-credentials-tip">
-              Tài khoản: <span>admin@gmail.com</span> / Mật khẩu: <span>admin123</span>
-            </div>
-          </div>
 
           <div className="admin-auth-footer">
             <a href="http://localhost:5173" className="back-to-shop-link">➔ Quay lại Cửa hàng Khách hàng</a>
