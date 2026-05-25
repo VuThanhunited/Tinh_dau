@@ -8,6 +8,8 @@ import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import articleRoutes from './routes/articleRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
+import settingRoutes from './routes/settingRoutes.js';
 
 // Resolve __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
@@ -31,6 +33,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/articles', articleRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/settings', settingRoutes);
 
 // Base route
 app.get('/', (req, res) => {

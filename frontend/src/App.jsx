@@ -10,6 +10,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Articles from './pages/Articles';
 import Products from './pages/Products';
+import FloatingWidgets from './components/FloatingWidgets';
 import './App.css';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             {/* Fallback wildcard to redirect users back to Home */}
             <Route path="*" element={<Home />} />
           </Routes>
+          <FloatingWidgets />
         </Router>
       </CartProvider>
     </AuthProvider>

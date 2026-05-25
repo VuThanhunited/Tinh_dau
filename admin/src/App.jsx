@@ -6,12 +6,13 @@ import Header from './components/Header';
 import DashboardView from './components/DashboardView';
 import ProductsView from './components/ProductsView';
 import UsersView from './components/UsersView';
+import HomepageView from './components/HomepageView';
 import './App.css';
 
 // Admin Core Layout Component
 const AdminLayout = () => {
   const { user, API_URL, logout } = useContext(AuthContext);
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard', 'products', 'users'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard', 'products', 'users', 'homepage'
 
   if (!user || user.role !== 'admin') {
     return <Navigate to="/login" replace />;
@@ -55,6 +56,16 @@ const AdminLayout = () => {
                 <span>Quản lý người dùng</span>
               </button>
             </li>
+            <li>
+              <button 
+                className={`sidebar-nav-item ${activeTab === 'homepage' ? 'active' : ''}`}
+                onClick={() => setActiveTab('homepage')}
+                id="sidebar-nav-homepage"
+              >
+                <span className="sidebar-nav-item-icon">🎨</span>
+                <span>Giao diện trang chủ</span>
+              </button>
+            </li>
           </ul>
 
           {/* Footer logout */}
@@ -86,6 +97,9 @@ const AdminLayout = () => {
           )}
           {activeTab === 'users' && (
             <UsersView API_URL={API_URL} user={user} />
+          )}
+          {activeTab === 'homepage' && (
+            <HomepageView />
           )}
         </main>
       </div>

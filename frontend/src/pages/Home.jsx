@@ -26,6 +26,54 @@ function useCountdown(targetDate) {
   return time;
 }
 
+/* ─── Default Homepage Config ────────────────────────────────────── */
+const DEFAULT_HOMEPAGE_CONFIG = {
+  heroSlides: [
+    {
+      tag: 'TINH DẦU THIÊN NHIÊN',
+      headline: '100% NGUYÊN CHẤT',
+      sub: 'Thanh lọc tinh thần – Cân bằng cảm xúc – Nâng niu sức khỏe',
+      btn: 'KHÁM PHÁ NGAY',
+      sale: '30%',
+      img: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=900&q=80',
+    },
+    {
+      tag: 'CHẤT LƯỢNG CAO CẤP',
+      headline: 'NHẬP KHẨU NGUYÊN GỐC',
+      sub: 'Hương thơm tinh tế từ thiên nhiên – An toàn cho cả gia đình',
+      btn: 'MUA NGAY',
+      sale: '20%',
+      img: 'https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&w=900&q=80',
+    },
+    {
+      tag: 'BỘ SƯU TẬP MỚI',
+      headline: 'THƯ GIÃN & SỨC KHỎE',
+      sub: 'Liệu pháp hương thơm giúp xua tan căng thẳng mệt mỏi',
+      btn: 'XEM THÊM',
+      sale: '25%',
+      img: 'https://images.unsplash.com/photo-1602928321679-560bb453f190?auto=format&fit=crop&w=900&q=80',
+    },
+  ],
+  features: [
+    { icon: '🚚', title: 'Miễn phí vận chuyển', sub: 'Cho đơn hàng từ 500k' },
+    { icon: '🛡️', title: 'Cam kết chất lượng', sub: '100% tinh dầu nguyên chất' },
+    { icon: '🔄', title: 'Đổi trả hàng trong 7 ngày', sub: 'Không phát hiện hàng lỗi' },
+    { icon: '📞', title: 'Tư vấn tận tâm', sub: 'Hotline: 0988.888.888' },
+  ],
+  saleBanner: {
+    heading: 'THANH LỌC KHÔNG GIAN – AN YÊN TINH THẦN',
+    percent: '30%',
+    desc: 'Cho các sản phẩm tinh dầu & máy khuếch tán với mỗi trường',
+  },
+  footer: {
+    companyDesc: 'Mypham13.maugiaodien.com chuyên cung cấp các loại tinh dầu thiên nhiên nguyên chất, an toàn cho sức khỏe và thân thiện với môi trường.',
+    hotline: '0988.888.888',
+    email: 'hello@maugiaodien.com',
+    address: 'Số 123, Đường ABC, Quận 1, TP. Hồ Chí Minh',
+    copyright: '© 2023 mypham13.maugiaodien.com. All rights reserved.',
+  },
+};
+
 /* ─── Main Component ─────────────────────────────────────────────── */
 const Home = () => {
   const { API_URL } = useContext(AuthContext);
@@ -43,6 +91,50 @@ const Home = () => {
   const [showCartDrawer, setShowCartDrawer] = useState(false);
   const [heroCurrent, setHeroCurrent] = useState(0);
   const heroTimer = useRef(null);
+
+  const [homepageConfig, setHomepageConfig] = useState(() => {
+    try {
+      const raw = localStorage.getItem('homepage_settings');
+      if (!raw) return DEFAULT_HOMEPAGE_CONFIG;
+      return { ...DEFAULT_HOMEPAGE_CONFIG, ...JSON.parse(raw) };
+    } catch {
+      return DEFAULT_HOMEPAGE_CONFIG;
+    }
+  });
+
+  // Fetch settings from MongoDB API on mount
+  useEffect(() => {
+    const fetchHomepageConfig = async () => {
+      try {
+        const res = await fetch(`${API_URL}/settings/homepage_settings`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data) {
+            setHomepageConfig({ ...DEFAULT_HOMEPAGE_CONFIG, ...data });
+            localStorage.setItem('homepage_settings', JSON.stringify(data));
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to fetch homepage settings from database, using local fallback:', err);
+      }
+    };
+    fetchHomepageConfig();
+  }, [API_URL]);
+
+  useEffect(() => {
+    const handleStorage = () => {
+      try {
+        const raw = localStorage.getItem('homepage_settings');
+        if (raw) {
+          setHomepageConfig({ ...DEFAULT_HOMEPAGE_CONFIG, ...JSON.parse(raw) });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
 
   useEffect(() => {
     if (categoryParam) {
@@ -72,39 +164,16 @@ const Home = () => {
   ];
 
   /* ── Hero Slides ─────────────────────────────────────── */
-  const heroSlides = [
-    {
-      tag: 'TINH DẦU THIÊN NHIÊN',
-      headline: '100% NGUYÊN CHẤT',
-      sub: 'Thanh lọc tinh thần – Cân bằng cảm xúc – Nâng niu sức khỏe',
-      btn: 'KHÁM PHÁ NGAY',
-      sale: '30%',
-      img: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=900&q=80',
-    },
-    {
-      tag: 'CHẤT LƯỢNG CAO CẤP',
-      headline: 'NHẬP KHẨU NGUYÊN GỐC',
-      sub: 'Hương thơm tinh tế từ thiên nhiên – An toàn cho cả gia đình',
-      btn: 'MUA NGAY',
-      sale: '20%',
-      img: 'https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&w=900&q=80',
-    },
-    {
-      tag: 'BỘ SƯU TẬP MỚI',
-      headline: 'THƯ GIÃN & SỨC KHỎE',
-      sub: 'Liệu pháp hương thơm giúp xua tan căng thẳng mệt mỏi',
-      btn: 'XEM THÊM',
-      sale: '25%',
-      img: 'https://images.unsplash.com/photo-1602928321679-560bb453f190?auto=format&fit=crop&w=900&q=80',
-    },
-  ];
+  const heroSlides = homepageConfig.heroSlides || DEFAULT_HOMEPAGE_CONFIG.heroSlides;
 
   useEffect(() => {
+    if (!heroSlides || heroSlides.length === 0) return;
     heroTimer.current = setInterval(() => setHeroCurrent(p => (p + 1) % heroSlides.length), 5000);
     return () => clearInterval(heroTimer.current);
-  }, []);
+  }, [heroSlides.length]);
 
   const goSlide = (dir) => {
+    if (!heroSlides || heroSlides.length === 0) return;
     clearInterval(heroTimer.current);
     setHeroCurrent(p => (p + dir + heroSlides.length) % heroSlides.length);
     heroTimer.current = setInterval(() => setHeroCurrent(p => (p + 1) % heroSlides.length), 5000);
@@ -193,7 +262,7 @@ const Home = () => {
               <div className="hero-bg-left" />
               {/* Right side: product image + lavender bg */}
               <div className="hero-bg-right">
-                <img src={s.img} alt="" className="hero-bg-right-img" />
+                <img src={getImageUrl(s.img)} alt="" className="hero-bg-right-img" />
                 <div className="hero-bg-right-overlay" />
               </div>
 
@@ -205,7 +274,7 @@ const Home = () => {
                   <a href="#store-section" className="btn btn-hero">{s.btn}</a>
                 </div>
                 <div className="hero-product-display">
-                  <img src={s.img} alt="Product" className="hero-product-img" />
+                  <img src={getImageUrl(s.img)} alt="Product" className="hero-product-img" />
                 </div>
                 <div className="hero-sale-badge">
                   <span className="sale-badge-top">Sale Up To</span>
@@ -228,58 +297,17 @@ const Home = () => {
       {/* ── Features Bar ────────────────── */}
       <section className="features-bar">
         <div className="container features-bar-grid">
-          {/* Shipping */}
-          <div className="feature-item">
-            <div className="feature-svg-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="1" y="3" width="15" height="13" rx="1"/>
-                <path d="M16 8h4l3 3v5h-7V8z"/>
-                <circle cx="5.5" cy="18.5" r="2.5"/>
-                <circle cx="18.5" cy="18.5" r="2.5"/>
-              </svg>
+          {homepageConfig.features.map((feat, i) => (
+            <div className="feature-item" key={i}>
+              <div className="feature-svg-icon" style={{ fontSize: '1.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {feat.icon}
+              </div>
+              <div>
+                <p className="feature-title">{feat.title}</p>
+                <p className="feature-sub">{feat.sub}</p>
+              </div>
             </div>
-            <div>
-              <p className="feature-title">Miễn phí vận chuyển</p>
-              <p className="feature-sub">Cho đơn hàng từ 500k</p>
-            </div>
-          </div>
-          {/* Quality */}
-          <div className="feature-item">
-            <div className="feature-svg-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-            </div>
-            <div>
-              <p className="feature-title">Cam kết chất lượng</p>
-              <p className="feature-sub">100% tinh dầu nguyên chất</p>
-            </div>
-          </div>
-          {/* Return */}
-          <div className="feature-item">
-            <div className="feature-svg-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-            </div>
-            <div>
-              <p className="feature-title">Đổi trả hàng trong 7 ngày</p>
-              <p className="feature-sub">Không phát hiện hàng lỗi</p>
-            </div>
-          </div>
-          {/* Support */}
-          <div className="feature-item">
-            <div className="feature-svg-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.69 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l1.32-1.32a2 2 0 0 1 2.11-.45c.91.33 1.85.56 2.81.69A2 2 0 0 1 22 16.92z"/>
-              </svg>
-            </div>
-            <div>
-              <p className="feature-title">Tư vấn tận tâm</p>
-              <p className="feature-sub">Hotline: 0988.888.888</p>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -418,9 +446,9 @@ const Home = () => {
       <section className="sale-countdown-banner">
         <div className="container sale-countdown-inner">
           <div className="sale-countdown-text">
-            <h2>THANH LỌC KHÔNG GIAN – AN YÊN TINH THẦN</h2>
-            <p className="sale-coupon">ƯU ĐÃI LÊN ĐẾN <strong>30%</strong></p>
-            <p>Cho các sản phẩm tinh dầu &amp; máy khuếch tán với mỗi trường</p>
+            <h2>{homepageConfig.saleBanner.heading}</h2>
+            <p className="sale-coupon">ƯU ĐÃI LÊN ĐẾN <strong>{homepageConfig.saleBanner.percent}</strong></p>
+            <p>{homepageConfig.saleBanner.desc}</p>
           </div>
           <div className="countdown-blocks">
             {[
@@ -529,7 +557,7 @@ const Home = () => {
           {/* Col 1 */}
           <div className="footer-col">
             <h4 className="footer-col-title">VỀ CHÚNG TÔI</h4>
-            <p className="footer-col-text">Mypham13.maugiaodien.com chuyên cung cấp các loại tinh dầu thiên nhiên nguyên chất, an toàn cho sức khỏe và thân thiện với môi trường.</p>
+            <p className="footer-col-text">{homepageConfig.footer.companyDesc}</p>
             <div className="footer-socials">
               <a href="#" className="social-icon facebook" title="Facebook">f</a>
               <a href="#" className="social-icon instagram" title="Instagram">in</a>
@@ -541,9 +569,9 @@ const Home = () => {
           <div className="footer-col">
             <h4 className="footer-col-title">THÔNG TIN LIÊN HỆ</h4>
             <ul className="footer-contact-list">
-              <li><span>📞</span> Hotline: 0988.888.888</li>
-              <li><span>✉️</span> Email: hello@maugiaodien.com</li>
-              <li><span>📍</span> Địa chỉ: Số 123, Đường ABC, Quận 1, TP. Hồ Chí Minh</li>
+              <li><span>📞</span> Hotline: {homepageConfig.footer.hotline}</li>
+              <li><span>✉️</span> Email: {homepageConfig.footer.email}</li>
+              <li><span>📍</span> Địa chỉ: {homepageConfig.footer.address}</li>
             </ul>
           </div>
           {/* Col 3 */}
@@ -583,7 +611,7 @@ const Home = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>© 2023 mypham13.maugiaodien.com. All rights reserved.</p>
+          <p>{homepageConfig.footer.copyright}</p>
         </div>
       </footer>
     </div>
