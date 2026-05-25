@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import './Contact.css';
 
 const Contact = () => {
@@ -221,39 +222,7 @@ const Contact = () => {
       </section>
 
       {/* Footer */}
-      <footer className="site-footer">
-        <div className="container footer-grid">
-          <div className="footer-col">
-            <h4 className="footer-col-title">VỀ CHÚNG TÔI</h4>
-            <p className="footer-col-text">Mypham13.maugiaodien.com chuyên cung cấp các loại tinh dầu thiên nhiên nguyên chất, an toàn cho sức khỏe và thân thiện với môi trường.</p>
-          </div>
-          <div className="footer-col">
-            <h4 className="footer-col-title">THÔNG TIN LIÊN HỆ</h4>
-            <ul className="footer-contact-list">
-              <li><span>📞</span> Hotline: 0988.888.888</li>
-              <li><span>✉️</span> Email: hello@maugiaodien.com</li>
-            </ul>
-          </div>
-          <div className="footer-col">
-            <h4 className="footer-col-title">CHÍNH SÁCH</h4>
-            <ul className="footer-links">
-              <li><Link to="/">Chính sách bảo mật</Link></li>
-              <li><Link to="/">Chính sách đổi trả</Link></li>
-            </ul>
-          </div>
-          <div className="footer-col">
-            <h4 className="footer-col-title">ĐĂNG KÝ NHẬN TIN</h4>
-            <p className="footer-col-text">Nhận thông tin khuyến mãi mới nhất từ chúng tôi</p>
-            <form className="footer-subscribe" onSubmit={e => e.preventDefault()}>
-              <input type="email" placeholder="Nhập email..." className="footer-email-input" />
-              <button type="submit" className="footer-subscribe-btn">→</button>
-            </form>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <p>© 2023 mypham13.maugiaodien.com. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

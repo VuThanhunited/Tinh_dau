@@ -1,16 +1,42 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import './Header.css';
 
 const Header = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, API_URL } = useContext(AuthContext);
   const { cartItems, wishlistItems, getCartTotal, formatVND } = useContext(CartContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [hotline, setHotline] = useState('0988.888.888');
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const fetchHotline = async () => {
+      try {
+        const res = await fetch(`${API_URL}/settings/homepage_settings`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.footer && data.footer.hotline) {
+            setHotline(data.footer.hotline);
+          }
+        } else {
+          const local = localStorage.getItem('homepage_settings');
+          if (local) {
+            const data = JSON.parse(local);
+            if (data && data.footer && data.footer.hotline) {
+              setHotline(data.footer.hotline);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to fetch hotline in Header:', err);
+      }
+    };
+    fetchHotline();
+  }, [API_URL]);
   
   const currentPath = location.pathname;
   const searchParams = new URLSearchParams(location.search);
@@ -68,11 +94,11 @@ const Header = () => {
             
             <span className="divider">|</span>
             <a href="#orders" className="top-bar-link">Kiểm tra đơn hàng</a>
-            <a href="tel:0988888888" className="top-bar-hotline-pill">
+            <a href={`tel:${hotline.replace(/\./g, '')}`} className="top-bar-hotline-pill">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M6.62 10.79a15.15 15.15 0 0 0 6.57 6.57l2.2-2.2a1 1 0 0 1 .9-.27 11.36 11.36 0 0 0 3.58.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.58 1 1 0 0 1-.27.9l-2.18 2.2z" />
               </svg>
-              Hotline: 0988.888.888
+              Hotline: {hotline}
             </a>
           </div>
         </div>

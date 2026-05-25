@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { getImageUrl } from '../utils/image';
 import './Home.css';
 
@@ -552,68 +553,7 @@ const Home = () => {
       )}
 
       {/* ── Footer ───────────────────────────────────────── */}
-      <footer className="site-footer">
-        <div className="container footer-grid">
-          {/* Col 1 */}
-          <div className="footer-col">
-            <h4 className="footer-col-title">VỀ CHÚNG TÔI</h4>
-            <p className="footer-col-text">{homepageConfig.footer.companyDesc}</p>
-            <div className="footer-socials">
-              <a href="#" className="social-icon facebook" title="Facebook">f</a>
-              <a href="#" className="social-icon instagram" title="Instagram">in</a>
-              <a href="#" className="social-icon youtube" title="Youtube">▶</a>
-              <a href="#" className="social-icon tiktok" title="TikTok">tt</a>
-            </div>
-          </div>
-          {/* Col 2 */}
-          <div className="footer-col">
-            <h4 className="footer-col-title">THÔNG TIN LIÊN HỆ</h4>
-            <ul className="footer-contact-list">
-              <li><span>📞</span> Hotline: {homepageConfig.footer.hotline}</li>
-              <li><span>✉️</span> Email: {homepageConfig.footer.email}</li>
-              <li><span>📍</span> Địa chỉ: {homepageConfig.footer.address}</li>
-            </ul>
-          </div>
-          {/* Col 3 */}
-          <div className="footer-col">
-            <h4 className="footer-col-title">CHÍNH SÁCH</h4>
-            <ul className="footer-links">
-              <li><a href="#">Chính sách bảo mật</a></li>
-              <li><a href="#">Chính sách đổi trả</a></li>
-              <li><a href="#">Chính sách vận chuyển</a></li>
-              <li><a href="#">Điều khoản sử dụng</a></li>
-            </ul>
-          </div>
-          {/* Col 4 */}
-          <div className="footer-col">
-            <h4 className="footer-col-title">HƯỚNG DẪN</h4>
-            <ul className="footer-links">
-              <li><a href="#">Hướng dẫn mua hàng</a></li>
-              <li><a href="#">Hướng dẫn thanh toán</a></li>
-              <li><a href="#">Chính sách đổi trả</a></li>
-              <li><a href="#">Câu hỏi thường gặp</a></li>
-            </ul>
-          </div>
-          {/* Col 5 */}
-          <div className="footer-col">
-            <h4 className="footer-col-title">ĐĂNG KÝ NHẬN TIN</h4>
-            <p className="footer-col-text">Nhận thông tin khuyến mãi mới nhất từ chúng tôi</p>
-            <form className="footer-subscribe" onSubmit={e => e.preventDefault()}>
-              <input type="email" placeholder="Nhập email của bạn..." className="footer-email-input" />
-              <button type="submit" className="footer-subscribe-btn">→</button>
-            </form>
-            <div className="footer-payments">
-              <span className="payment-icon visa">VISA</span>
-              <span className="payment-icon mastercard">MC</span>
-              <span className="payment-icon zalopay">ZaloPay</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="footer-bottom">
-          <p>{homepageConfig.footer.copyright}</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
