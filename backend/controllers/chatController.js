@@ -1,6 +1,4 @@
 // chatController.js - Xử lý chatbot AI với Gemini API
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 const SYSTEM_PROMPT = `Bạn là trợ lý tư vấn bán hàng cho cửa hàng tinh dầu thiên nhiên "Essential Oil - Pure & Natural".
 
@@ -27,9 +25,12 @@ export const sendChatMessage = async (req, res) => {
       return res.status(400).json({ error: 'Vui lòng nhập tin nhắn' });
     }
 
-    if (!GEMINI_API_KEY) {
+    const apiKey = process.env.GEMINI_API_KEY || 'AIzaSyBeA5QS8Xndhobaa-2bLykH5_ll6XD2sQg';
+    if (!apiKey) {
       return res.status(500).json({ error: 'Chưa cấu hình Gemini API key' });
     }
+
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
     // Build conversation history for Gemini
     const contents = [];
@@ -61,7 +62,7 @@ export const sendChatMessage = async (req, res) => {
       }
     };
 
-    const response = await fetch(GEMINI_API_URL, {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody)
