@@ -30,7 +30,7 @@ export const sendChatMessage = async (req, res) => {
       return res.status(500).json({ error: 'Chưa cấu hình Gemini API key' });
     }
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     // Build conversation history for Gemini
     const contents = [];
@@ -50,7 +50,7 @@ export const sendChatMessage = async (req, res) => {
     });
 
     const requestBody = {
-      system_instruction: {
+      systemInstruction: {
         parts: [{ text: SYSTEM_PROMPT }]
       },
       contents,
