@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import './FloatingWidgets.css';
 
 const FACEBOOK_PAGE_URL = 'https://www.facebook.com/essential.oil.pure.natural'; // Thay bằng URL fanpage thật của bạn
@@ -13,6 +14,7 @@ const QUICK_REPLIES = [
 ];
 
 const FloatingWidgets = () => {
+  const { API_URL } = useContext(AuthContext);
   // Chatbot state
   const [chatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -66,7 +68,7 @@ const FloatingWidgets = () => {
         .slice(-10)
         .map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', content: m.content }));
 
-      const res = await fetch('http://localhost:5000/api/chat', {
+      const res = await fetch(`${API_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: msgText, history }),
