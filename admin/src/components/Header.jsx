@@ -136,6 +136,8 @@ const Header = () => {
             href={window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5173' : 'https://tinh-dau-five.vercel.app/'}
             className="btn-store-link"
             title="Quay lại cửa hàng khách hàng"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             🛒 Xem cửa hàng
           </a>
