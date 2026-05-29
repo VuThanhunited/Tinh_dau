@@ -132,7 +132,11 @@ const Header = () => {
 
         {/* Right side navigation & Profile dropdown */}
         <div className="header-right-side">
-          <a href="http://localhost:5173" className="btn-store-link" title="Quay lại cửa hàng khách hàng">
+          <a 
+            href={window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5173' : window.location.origin} 
+            className="btn-store-link" 
+            title="Quay lại cửa hàng khách hàng"
+          >
             🛒 Xem cửa hàng
           </a>
           

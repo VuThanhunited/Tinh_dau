@@ -105,7 +105,12 @@ const Auth = () => {
 
 
           <div className="admin-auth-footer">
-            <a href="http://localhost:5173" className="back-to-shop-link">➔ Quay lại Cửa hàng Khách hàng</a>
+            <a 
+              href={window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5173' : window.location.origin} 
+              className="back-to-shop-link"
+            >
+              ➔ Quay lại Cửa hàng Khách hàng
+            </a>
           </div>
         </div>
       </div>
