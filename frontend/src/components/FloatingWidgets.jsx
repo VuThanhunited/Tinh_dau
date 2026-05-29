@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import './FloatingWidgets.css';
 
-const FACEBOOK_PAGE_URL = 'https://www.facebook.com/essential.oil.pure.natural'; // Thay bằng URL fanpage thật của bạn
-const FACEBOOK_PAGE_NAME = 'Essential Oil - Pure & Natural';
+const FACEBOOK_PAGE_URL = 'https://www.facebook.com/people/Tinh-D%E1%BA%A7u-Tr%C3%A0m-H%C6%B0%C6%A1ng-Giang/100067505340122/'; // Thay bằng URL fanpage thật của bạn
+const FACEBOOK_PAGE_NAME = 'Tinh Dầu Tràm Hương Giang';
 
 const QUICK_REPLIES = [
   '🌿 Tinh dầu nào tốt cho giấc ngủ?',
@@ -329,7 +329,7 @@ const FloatingWidgets = () => {
                   Thích trang
                 </a>
                 <a
-                  href={`https://m.me/essential.oil.pure.natural`}
+                  href={`https://m.me/100067505340122`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="fanpage-btn fanpage-btn-secondary"

@@ -57,7 +57,7 @@ const Footer = () => {
           <h4 className="footer-col-title">VỀ CHÚNG TÔI</h4>
           <p className="footer-col-text">{footerConfig.companyDesc}</p>
           <div className="footer-socials">
-            <a href="#" className="social-icon facebook" title="Facebook">f</a>
+            <a href="https://www.facebook.com/people/Tinh-D%E1%BA%A7u-Tr%C3%A0m-H%C6%B0%C6%A1ng-Giang/100067505340122/" target="_blank" rel="noopener noreferrer" className="social-icon facebook" title="Facebook">f</a>
             <a href="#" className="social-icon instagram" title="Instagram">in</a>
             <a href="#" className="social-icon youtube" title="Youtube">▶</a>
             <a href="#" className="social-icon tiktok" title="TikTok">tt</a>

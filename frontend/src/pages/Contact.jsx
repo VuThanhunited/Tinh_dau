@@ -150,8 +150,8 @@ const Contact = () => {
                 <span className="facebook-icon-text">f</span>
               </div>
               <div className="item-text-box">
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="fanpage-link font-semibold">
-                  Essential Oil - Tinh Dầu Thiên Nhiên
+                <a href="https://www.facebook.com/people/Tinh-D%E1%BA%A7u-Tr%C3%A0m-H%C6%B0%C6%A1ng-Giang/100067505340122/" target="_blank" rel="noopener noreferrer" className="fanpage-link font-semibold">
+                  Tinh Dầu Tràm Hương Giang
                 </a>
               </div>
             </div>
