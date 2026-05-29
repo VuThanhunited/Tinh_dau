@@ -119,9 +119,9 @@ const Header = () => {
         <div className="logo-container">
           <div className="logo-icon">
             <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
-              <path d="M50 15C50 15 35 35 35 55C35 63.28 41.72 70 50 70C58.28 70 65 63.28 65 55C65 35 50 15 50 15Z" fill="#7E57C2" opacity="0.8"/>
-              <path d="M50 25C50 25 20 45 20 60C20 71.04 28.96 80 40 80C45 80 50 75 50 75C50 75 55 80 60 80C71.04 80 80 71.04 80 60C80 45 50 25 50 25Z" fill="#5E35B1" opacity="0.6"/>
-              <path d="M50 40C50 40 40 55 40 68C40 73.52 44.48 78 50 78C55.52 78 60 73.52 60 68C60 55 50 40 50 40Z" fill="#E040FB" opacity="0.9"/>
+              <path d="M50 15C50 15 35 35 35 55C35 63.28 41.72 70 50 70C58.28 70 65 63.28 65 55C65 35 50 15 50 15Z" fill="#7E57C2" opacity="0.8" />
+              <path d="M50 25C50 25 20 45 20 60C20 71.04 28.96 80 40 80C45 80 50 75 50 75C50 75 55 80 60 80C71.04 80 80 71.04 80 60C80 45 50 25 50 25Z" fill="#5E35B1" opacity="0.6" />
+              <path d="M50 40C50 40 40 55 40 68C40 73.52 44.48 78 50 78C55.52 78 60 73.52 60 68C60 55 50 40 50 40Z" fill="#E040FB" opacity="0.9" />
             </svg>
           </div>
           <div className="logo-text">
@@ -132,14 +132,14 @@ const Header = () => {
 
         {/* Right side navigation & Profile dropdown */}
         <div className="header-right-side">
-          <a 
-            href={window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5173' : window.location.origin} 
-            className="btn-store-link" 
+          <a
+            href={window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5173' : 'https://tinh-dau-five.vercel.app/'}
+            className="btn-store-link"
             title="Quay lại cửa hàng khách hàng"
           >
             🛒 Xem cửa hàng
           </a>
-          
+
           <div className="admin-profile-dropdown-container">
             <button className="profile-btn glass" onClick={() => setShowDropdown(!showDropdown)}>
               <span className="user-avatar">🛡️</span>
@@ -171,7 +171,7 @@ const Header = () => {
               <h3 className="modal-title">⚙️ THÀNH VIÊN QUẢN TRỊ</h3>
               <button className="modal-close-btn" onClick={() => setIsSettingsOpen(false)}>✕</button>
             </div>
-            
+
             <form onSubmit={handleSettingsSubmit}>
               <div className="modal-body">
                 {settingsSuccess && (
