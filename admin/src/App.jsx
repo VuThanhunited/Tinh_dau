@@ -130,9 +130,10 @@ const AppContent = () => {
 };
 
 function App() {
+  const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
   return (
     <AuthProvider>
-      <Router basename="/admin">
+      <Router basename={basename}>
         <AppContent />
       </Router>
     </AuthProvider>
