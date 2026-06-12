@@ -12,13 +12,13 @@ export const getImageUrl = (imagePath) => {
   if (imagePath.startsWith('data:') || imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
     // Fix: If running on production (not localhost) but the DB image URL points to localhost:5000
     if (imagePath.includes('localhost:5000') && !window.location.hostname.includes('localhost')) {
-      return imagePath.replace('http://localhost:5000', 'https://tinh-dau.onrender.com');
+      return imagePath.replace('http://localhost:5000', 'https://tinhdautramhuonggiang.com.vn');
     }
     return imagePath;
   }
 
   // If it's a relative path (e.g., /img/download.jpg)
-  const apiUrl = import.meta.env.VITE_API_URL || 'https://tinh-dau.onrender.com/api';
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://tinhdautramhuonggiang.com.vn/api';
   const baseUrl = apiUrl.replace('/api', ''); // Get backend root URL (remove '/api')
 
   const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;

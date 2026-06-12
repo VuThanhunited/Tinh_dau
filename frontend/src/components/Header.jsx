@@ -74,7 +74,7 @@ const Header = () => {
                   {user ? (
                     <>
                       {user.role === 'admin' && (
-                        <a href="http://localhost:5174" target="_blank" rel="noopener noreferrer" className="dropdown-item admin-link" onClick={() => setShowDropdown(false)}>
+                        <a href={window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5174' : 'https://tinh-dau-admin.vercel.app'} target="_blank" rel="noopener noreferrer" className="dropdown-item admin-link" onClick={() => setShowDropdown(false)}>
                           🛡️ Trang Quản Trị (Admin)
                         </a>
                       )}
