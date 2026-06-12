@@ -25,7 +25,12 @@ const Auth = () => {
   useEffect(() => {
     if (user) {
       if (user.role === 'admin') {
-        navigate('/admin');
+        const adminUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:5174'
+          : window.location.hostname.includes('vercel.app')
+          ? 'https://tinh-dau-admin.vercel.app'
+          : '/admin';
+        window.location.href = adminUrl;
       } else {
         navigate('/');
       }

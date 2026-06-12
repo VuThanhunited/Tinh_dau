@@ -133,7 +133,13 @@ const Header = () => {
         {/* Right side navigation & Profile dropdown */}
         <div className="header-right-side">
           <a
-            href={window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5173' : 'https://tinh-dau-five.vercel.app/'}
+            href={
+              window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:5173'
+                : window.location.hostname.includes('vercel.app')
+                ? 'https://tinh-dau-five.vercel.app/'
+                : '/'
+            }
             className="btn-store-link"
             title="Quay lại cửa hàng khách hàng"
             target="_blank"

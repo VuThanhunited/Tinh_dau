@@ -106,7 +106,13 @@ const Auth = () => {
 
           <div className="admin-auth-footer">
             <a 
-              href={window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5173' : 'https://tinh-dau-five.vercel.app/'} 
+              href={
+                window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                  ? 'http://localhost:5173'
+                  : window.location.hostname.includes('vercel.app')
+                  ? 'https://tinh-dau-five.vercel.app/'
+                  : '/'
+              } 
               className="back-to-shop-link"
               target="_blank"
               rel="noopener noreferrer"
