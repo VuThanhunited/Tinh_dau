@@ -4,6 +4,13 @@ import './HomepageView.css';
 
 /* ─── Default Config (mirrors Home.jsx defaults) ─────────────────── */
 export const DEFAULT_HOMEPAGE_CONFIG = {
+  header: {
+    welcomeText: 'Chào mừng bạn đến với mypham13.maugiaodien.com',
+    logoTitle: 'ESSENTIAL OIL',
+    logoSubtitle: 'PURE & NATURAL',
+    logoType: 'icon', // 'icon' or 'image'
+    logoImg: '',
+  },
   heroSlides: [
     {
       tag: 'TINH DẦU THIÊN NHIÊN',
@@ -120,7 +127,7 @@ const ImageInput = ({ value, onChange, label, id }) => {
 const HomepageView = () => {
   const { API_URL, user } = useContext(AuthContext);
   const [config, setConfig] = useState(loadConfig);
-  const [activeSection, setActiveSection] = useState('hero');
+  const [activeSection, setActiveSection] = useState('header');
   const [activeSlide, setActiveSlide] = useState(0);
   const [saved, setSaved] = useState(false);
   const [dirty, setDirty] = useState(false);
@@ -135,7 +142,13 @@ const HomepageView = () => {
         if (res.ok) {
           const data = await res.json();
           if (data) {
-            setConfig({ ...DEFAULT_HOMEPAGE_CONFIG, ...data });
+            setConfig({
+              ...DEFAULT_HOMEPAGE_CONFIG,
+              ...data,
+              header: { ...DEFAULT_HOMEPAGE_CONFIG.header, ...(data.header || {}) },
+              footer: { ...DEFAULT_HOMEPAGE_CONFIG.footer, ...(data.footer || {}) },
+              saleBanner: { ...DEFAULT_HOMEPAGE_CONFIG.saleBanner, ...(data.saleBanner || {}) }
+            });
           }
         }
       } catch (err) {
@@ -212,6 +225,7 @@ const HomepageView = () => {
   };
 
   const SECTIONS = [
+    { key: 'header', label: 'Header & Logo', icon: '📛', desc: 'Logo, Tên thương hiệu & Dòng chào mừng' },
     { key: 'hero', label: 'Hero Slider', icon: '🖼️', desc: 'Banner chính trang chủ (3 slide)' },
     { key: 'features', label: 'Chính sách', icon: '✨', desc: '4 ô đặc điểm nổi bật' },
     { key: 'saleBanner', label: 'Banner Sale', icon: '🏷️', desc: 'Banner đếm ngược khuyến mãi' },
@@ -261,6 +275,131 @@ const HomepageView = () => {
           </button>
         ))}
       </div>
+
+      {/* ══════════════════════════════════════
+          SECTION: HEADER & LOGO
+      ══════════════════════════════════════ */}
+      {activeSection === 'header' && (
+        <div className="hp-section-body animate-fade-in">
+          <div className="hp-section-intro">
+            <h3 className="hp-section-title">Header & Logo – Cài đặt chung</h3>
+            <p className="hp-section-hint">Tùy chỉnh biểu tượng logo, tên thương hiệu, khẩu hiệu, và dòng chào mừng ở top bar.</p>
+          </div>
+
+          <div className="hp-slide-editor-wrap">
+            {/* Form */}
+            <div className="hp-editor-form glass">
+              <div className="form-group">
+                <label className="form-label" htmlFor="header-welcome">Dòng chữ chào mừng (Top bar)</label>
+                <input
+                  id="header-welcome"
+                  type="text"
+                  className="form-input"
+                  value={config.header?.welcomeText || ''}
+                  onChange={e => update(['header', 'welcomeText'], e.target.value)}
+                  placeholder="VD: Chào mừng bạn đến với mypham13.maugiaodien.com"
+                />
+              </div>
+
+              <div className="hp-form-grid">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="header-title">Tên thương hiệu (Logo Title)</label>
+                  <input
+                    id="header-title"
+                    type="text"
+                    className="form-input"
+                    value={config.header?.logoTitle || ''}
+                    onChange={e => update(['header', 'logoTitle'], e.target.value)}
+                    placeholder="VD: ESSENTIAL OIL"
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="header-sub">Khẩu hiệu / Phụ đề (Logo Subtitle)</label>
+                  <input
+                    id="header-sub"
+                    type="text"
+                    className="form-input"
+                    value={config.header?.logoSubtitle || ''}
+                    onChange={e => update(['header', 'logoSubtitle'], e.target.value)}
+                    placeholder="VD: PURE & NATURAL"
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Kiểu logo hiển thị</label>
+                <div className="hp-radio-group" style={{ display: 'flex', gap: '1.5rem', marginTop: '0.5rem' }}>
+                  <label className="hp-radio-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                    <input
+                      type="radio"
+                      name="logoType"
+                      value="icon"
+                      checked={config.header?.logoType === 'icon'}
+                      onChange={() => update(['header', 'logoType'], 'icon')}
+                    />
+                    Icon hoa sen mặc định
+                  </label>
+                  <label className="hp-radio-label" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                    <input
+                      type="radio"
+                      name="logoType"
+                      value="image"
+                      checked={config.header?.logoType === 'image'}
+                      onChange={() => update(['header', 'logoType'], 'image')}
+                    />
+                    Hình ảnh logo tùy chỉnh
+                  </label>
+                </div>
+              </div>
+
+              {config.header?.logoType === 'image' && (
+                <ImageInput
+                  label="Ảnh Logo"
+                  id="header-logo-img"
+                  value={config.header?.logoImg || ''}
+                  onChange={v => update(['header', 'logoImg'], v)}
+                />
+              )}
+            </div>
+
+            {/* Preview */}
+            <div className="hp-slide-preview">
+              <div className="hp-preview-label">Live Preview – Header Bar</div>
+              <div className="hp-header-preview-card glass" style={{ padding: '0', display: 'flex', flexDirection: 'column', width: '100%', overflow: 'hidden', borderRadius: '8px', border: '1px solid #E2E8F0', backgroundColor: '#FFF' }}>
+                {/* Simulated Top Bar */}
+                <div className="hp-prev-topbar" style={{ backgroundColor: '#5E35B1', color: '#FFFFFF', padding: '6px 12px', fontSize: '11px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>{config.header?.welcomeText || 'Chào mừng bạn đến với cửa hàng'}</span>
+                  <span>Hotline: {config.footer?.hotline || '0988.888.888'}</span>
+                </div>
+                {/* Simulated Main Header */}
+                <div className="hp-prev-mainheader" style={{ display: 'flex', alignItems: 'center', padding: '12px', backgroundColor: '#FFFFFF', borderBottom: '1px solid #EDF2F7' }}>
+                  <div className="hp-prev-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div className="hp-prev-logo-icon" style={{ width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {config.header?.logoType === 'image' && config.header?.logoImg ? (
+                        <img src={config.header.logoImg} alt="logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                      ) : (
+                        <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+                          <path d="M50 15C50 15 35 35 35 55C35 63.28 41.72 70 50 70C58.28 70 65 63.28 65 55C65 35 50 15 50 15Z" fill="#7E57C2" opacity="0.8"/>
+                          <path d="M50 25C50 25 20 45 20 60C20 71.04 28.96 80 40 80C45 80 50 75 50 75C50 75 55 80 60 80C71.04 80 80 71.04 80 60C80 45 50 25 50 25Z" fill="#5E35B1" opacity="0.6"/>
+                          <path d="M50 40C50 40 40 55 40 68C40 73.52 44.48 78 50 78C55.52 78 60 73.52 60 68C60 55 50 40 50 40Z" fill="#E040FB" opacity="0.9"/>
+                        </svg>
+                      )}
+                    </div>
+                    <div className="hp-prev-logo-text" style={{ display: 'flex', flexDirection: 'column', fontFamily: 'sans-serif' }}>
+                      <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#311B92', letterSpacing: '0.5px' }}>{config.header?.logoTitle || 'BRAND NAME'}</span>
+                      <span style={{ fontSize: '9px', color: '#718096', fontWeight: '600' }}>{config.header?.logoSubtitle || 'SLOGAN'}</span>
+                    </div>
+                  </div>
+                  <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+                    <div style={{ width: '60px', height: '15px', borderRadius: '4px', backgroundColor: '#E2E8F0' }}></div>
+                    <div style={{ width: '40px', height: '15px', borderRadius: '4px', backgroundColor: '#E2E8F0' }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ══════════════════════════════════════
           SECTION: HERO SLIDER

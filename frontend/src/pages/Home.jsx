@@ -29,6 +29,13 @@ function useCountdown(targetDate) {
 
 /* ─── Default Homepage Config ────────────────────────────────────── */
 const DEFAULT_HOMEPAGE_CONFIG = {
+  header: {
+    welcomeText: 'Chào mừng bạn đến với mypham13.maugiaodien.com',
+    logoTitle: 'ESSENTIAL OIL',
+    logoSubtitle: 'PURE & NATURAL',
+    logoType: 'icon', // 'icon' or 'image'
+    logoImg: '',
+  },
   heroSlides: [
     {
       tag: 'TINH DẦU THIÊN NHIÊN',
@@ -97,7 +104,14 @@ const Home = () => {
     try {
       const raw = localStorage.getItem('homepage_settings');
       if (!raw) return DEFAULT_HOMEPAGE_CONFIG;
-      return { ...DEFAULT_HOMEPAGE_CONFIG, ...JSON.parse(raw) };
+      const parsed = JSON.parse(raw);
+      return {
+        ...DEFAULT_HOMEPAGE_CONFIG,
+        ...parsed,
+        header: { ...DEFAULT_HOMEPAGE_CONFIG.header, ...(parsed.header || {}) },
+        footer: { ...DEFAULT_HOMEPAGE_CONFIG.footer, ...(parsed.footer || {}) },
+        saleBanner: { ...DEFAULT_HOMEPAGE_CONFIG.saleBanner, ...(parsed.saleBanner || {}) }
+      };
     } catch {
       return DEFAULT_HOMEPAGE_CONFIG;
     }
@@ -111,7 +125,13 @@ const Home = () => {
         if (res.ok) {
           const data = await res.json();
           if (data) {
-            setHomepageConfig({ ...DEFAULT_HOMEPAGE_CONFIG, ...data });
+            setHomepageConfig({
+              ...DEFAULT_HOMEPAGE_CONFIG,
+              ...data,
+              header: { ...DEFAULT_HOMEPAGE_CONFIG.header, ...(data.header || {}) },
+              footer: { ...DEFAULT_HOMEPAGE_CONFIG.footer, ...(data.footer || {}) },
+              saleBanner: { ...DEFAULT_HOMEPAGE_CONFIG.saleBanner, ...(data.saleBanner || {}) }
+            });
             localStorage.setItem('homepage_settings', JSON.stringify(data));
           }
         }
@@ -127,7 +147,14 @@ const Home = () => {
       try {
         const raw = localStorage.getItem('homepage_settings');
         if (raw) {
-          setHomepageConfig({ ...DEFAULT_HOMEPAGE_CONFIG, ...JSON.parse(raw) });
+          const parsed = JSON.parse(raw);
+          setHomepageConfig({
+            ...DEFAULT_HOMEPAGE_CONFIG,
+            ...parsed,
+            header: { ...DEFAULT_HOMEPAGE_CONFIG.header, ...(parsed.header || {}) },
+            footer: { ...DEFAULT_HOMEPAGE_CONFIG.footer, ...(parsed.footer || {}) },
+            saleBanner: { ...DEFAULT_HOMEPAGE_CONFIG.saleBanner, ...(parsed.saleBanner || {}) }
+          });
         }
       } catch (e) {
         console.error(e);

@@ -2,41 +2,76 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
+import { getImageUrl } from '../utils/image';
 import './Header.css';
 
 const Header = () => {
   const { user, logout, API_URL } = useContext(AuthContext);
   const { cartItems, wishlistItems, getCartTotal, formatVND } = useContext(CartContext);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [headerConfig, setHeaderConfig] = useState({
+    welcomeText: 'Chào mừng bạn đến với mypham13.maugiaodien.com',
+    logoTitle: 'ESSENTIAL OIL',
+    logoSubtitle: 'PURE & NATURAL',
+    logoType: 'icon', // 'icon' or 'image'
+    logoImg: '',
+  });
   const [hotline, setHotline] = useState('0988.888.888');
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    const fetchHotline = async () => {
+    const fetchConfig = async () => {
       try {
         const res = await fetch(`${API_URL}/settings/homepage_settings`);
         if (res.ok) {
           const data = await res.json();
-          if (data && data.footer && data.footer.hotline) {
-            setHotline(data.footer.hotline);
+          if (data) {
+            if (data.header) {
+              setHeaderConfig(prev => ({ ...prev, ...data.header }));
+            }
+            if (data.footer && data.footer.hotline) {
+              setHotline(data.footer.hotline);
+            }
           }
         } else {
           const local = localStorage.getItem('homepage_settings');
           if (local) {
             const data = JSON.parse(local);
-            if (data && data.footer && data.footer.hotline) {
-              setHotline(data.footer.hotline);
+            if (data) {
+              if (data.header) {
+                setHeaderConfig(prev => ({ ...prev, ...data.header }));
+              }
+              if (data.footer && data.footer.hotline) {
+                setHotline(data.footer.hotline);
+              }
             }
           }
         }
       } catch (err) {
-        console.warn('Failed to fetch hotline in Header:', err);
+        console.warn('Failed to fetch config in Header:', err);
+        try {
+          const local = localStorage.getItem('homepage_settings');
+          if (local) {
+            const data = JSON.parse(local);
+            if (data) {
+              if (data.header) {
+                setHeaderConfig(prev => ({ ...prev, ...data.header }));
+              }
+              if (data.footer && data.footer.hotline) {
+                setHotline(data.footer.hotline);
+              }
+            }
+          }
+        } catch (e) {
+          console.error('Error parsing localStorage in Header catch:', e);
+        }
       }
     };
-    fetchHotline();
+    fetchConfig();
   }, [API_URL]);
+  
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
   
   const currentPath = location.pathname;
   const searchParams = new URLSearchParams(location.search);
@@ -54,7 +89,7 @@ const Header = () => {
       {/* 1. Purple Top Bar */}
       <div className="top-bar">
         <div className="container top-bar-content">
-          <span className="welcome-text">Chào mừng bạn đến với mypham13.maugiaodien.com</span>
+          <span className="welcome-text">{headerConfig.welcomeText}</span>
           <div className="top-bar-links">
             <div className="account-dropdown-container">
               <button className="top-bar-btn" onClick={() => setShowDropdown(!showDropdown)}>
@@ -122,16 +157,20 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="logo-container">
             <div className="logo-icon">
-              {/* Lotus SVG */}
-              <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
-                <path d="M50 15C50 15 35 35 35 55C35 63.28 41.72 70 50 70C58.28 70 65 63.28 65 55C65 35 50 15 50 15Z" fill="#7E57C2" opacity="0.8"/>
-                <path d="M50 25C50 25 20 45 20 60C20 71.04 28.96 80 40 80C45 80 50 75 50 75C50 75 55 80 60 80C71.04 80 80 71.04 80 60C80 45 50 25 50 25Z" fill="#5E35B1" opacity="0.6"/>
-                <path d="M50 40C50 40 40 55 40 68C40 73.52 44.48 78 50 78C55.52 78 60 73.52 60 68C60 55 50 40 50 40Z" fill="#E040FB" opacity="0.9"/>
-              </svg>
+              {headerConfig.logoType === 'image' && headerConfig.logoImg ? (
+                <img src={getImageUrl(headerConfig.logoImg)} alt="Logo" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+              ) : (
+                /* Lotus SVG */
+                <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+                  <path d="M50 15C50 15 35 35 35 55C35 63.28 41.72 70 50 70C58.28 70 65 63.28 65 55C65 35 50 15 50 15Z" fill="#7E57C2" opacity="0.8"/>
+                  <path d="M50 25C50 25 20 45 20 60C20 71.04 28.96 80 40 80C45 80 50 75 50 75C50 75 55 80 60 80C71.04 80 80 71.04 80 60C80 45 50 25 50 25Z" fill="#5E35B1" opacity="0.6"/>
+                  <path d="M50 40C50 40 40 55 40 68C40 73.52 44.48 78 50 78C55.52 78 60 73.52 60 68C60 55 50 40 50 40Z" fill="#E040FB" opacity="0.9"/>
+                </svg>
+              )}
             </div>
             <div className="logo-text">
-              <span className="logo-title">ESSENTIAL OIL</span>
-              <span className="logo-subtitle">PURE & NATURAL</span>
+              <span className="logo-title">{headerConfig.logoTitle}</span>
+              <span className="logo-subtitle">{headerConfig.logoSubtitle}</span>
             </div>
           </Link>
 

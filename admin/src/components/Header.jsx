@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { getImageUrl } from '../utils/image';
 import './Header.css';
 
 const Header = () => {
@@ -9,6 +10,48 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const [headerConfig, setHeaderConfig] = useState({
+    logoTitle: 'ESSENTIAL OIL',
+    logoType: 'icon',
+    logoImg: ''
+  });
+
+  useEffect(() => {
+    const fetchHeaderConfig = async () => {
+      try {
+        const res = await fetch(`${API_URL}/settings/homepage_settings`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.header) {
+            setHeaderConfig({
+              logoTitle: data.header.logoTitle || 'ESSENTIAL OIL',
+              logoType: data.header.logoType || 'icon',
+              logoImg: data.header.logoImg || ''
+            });
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to fetch header config in admin Header:', err);
+        try {
+          const local = localStorage.getItem('homepage_settings');
+          if (local) {
+            const data = JSON.parse(local);
+            if (data && data.header) {
+              setHeaderConfig({
+                logoTitle: data.header.logoTitle || 'ESSENTIAL OIL',
+                logoType: data.header.logoType || 'icon',
+                logoImg: data.header.logoImg || ''
+              });
+            }
+          }
+        } catch (e) {
+          console.error('Error parsing localStorage in admin Header catch:', e);
+        }
+      }
+    };
+    fetchHeaderConfig();
+  }, [API_URL]);
 
   const [settingsFormData, setSettingsFormData] = useState({
     username: '',
@@ -118,14 +161,18 @@ const Header = () => {
         {/* Logo */}
         <div className="logo-container">
           <div className="logo-icon">
-            <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
-              <path d="M50 15C50 15 35 35 35 55C35 63.28 41.72 70 50 70C58.28 70 65 63.28 65 55C65 35 50 15 50 15Z" fill="#7E57C2" opacity="0.8" />
-              <path d="M50 25C50 25 20 45 20 60C20 71.04 28.96 80 40 80C45 80 50 75 50 75C50 75 55 80 60 80C71.04 80 80 71.04 80 60C80 45 50 25 50 25Z" fill="#5E35B1" opacity="0.6" />
-              <path d="M50 40C50 40 40 55 40 68C40 73.52 44.48 78 50 78C55.52 78 60 73.52 60 68C60 55 50 40 50 40Z" fill="#E040FB" opacity="0.9" />
-            </svg>
+            {headerConfig.logoType === 'image' && headerConfig.logoImg ? (
+              <img src={getImageUrl(headerConfig.logoImg)} alt="Logo" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+            ) : (
+              <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+                <path d="M50 15C50 15 35 35 35 55C35 63.28 41.72 70 50 70C58.28 70 65 63.28 65 55C65 35 50 15 50 15Z" fill="#7E57C2" opacity="0.8" />
+                <path d="M50 25C50 25 20 45 20 60C20 71.04 28.96 80 40 80C45 80 50 75 50 75C50 75 55 80 60 80C71.04 80 80 71.04 80 60C80 45 50 25 50 25Z" fill="#5E35B1" opacity="0.6" />
+                <path d="M50 40C50 40 40 55 40 68C40 73.52 44.48 78 50 78C55.52 78 60 73.52 60 68C60 55 50 40 50 40Z" fill="#E040FB" opacity="0.9" />
+              </svg>
+            )}
           </div>
           <div className="logo-text">
-            <span className="logo-title">ESSENTIAL OIL</span>
+            <span className="logo-title">{headerConfig.logoTitle}</span>
             <span className="logo-subtitle">PORTAL QUẢN TRỊ</span>
           </div>
         </div>
