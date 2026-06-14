@@ -1,0 +1,23 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Auto Deploy to VPS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute Remote Deploy Script via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 45.251.114.156
+          username: root
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: 22
+          script: |
+            cd /var/www/tinh-dau-web
+            git pull origin main
+            bash deploy/deploy.sh
