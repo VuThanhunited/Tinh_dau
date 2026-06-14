@@ -72,6 +72,12 @@ const Header = () => {
   
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
+
+  const toggleSubmenu = (menu) => {
+    setActiveSubmenu(activeSubmenu === menu ? null : menu);
+  };
   
   const currentPath = location.pathname;
   const searchParams = new URLSearchParams(location.search);
@@ -220,7 +226,37 @@ const Header = () => {
                 <span className="widget-value">{formatVND(getCartTotal())}</span>
               </div>
             </Link>
+
+            {/* Hamburger Button for Mobile */}
+            <button className="hamburger-menu-btn" onClick={() => setIsMobileMenuOpen(true)} aria-label="Menu">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
           </div>
+        </div>
+      </div>
+
+      {/* 2b. Mobile Search Bar Row */}
+      <div className="mobile-search-row">
+        <div className="container">
+          <form className="search-bar" onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="Tìm kiếm tinh dầu..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="search-input"
+            />
+            <button type="submit" className="search-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </button>
+          </form>
         </div>
       </div>
 
@@ -262,6 +298,100 @@ const Header = () => {
           </ul>
         </div>
       </nav>
+
+      {/* 4. Mobile Navigation Drawer */}
+      <div className={`mobile-nav-drawer-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>
+        <div className={`mobile-nav-drawer ${isMobileMenuOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
+          <div className="drawer-header">
+            <div className="drawer-logo">
+              <span className="drawer-logo-title">{headerConfig.logoTitle}</span>
+              <span className="drawer-logo-subtitle">{headerConfig.logoSubtitle}</span>
+            </div>
+            <button className="close-drawer-btn" onClick={() => setIsMobileMenuOpen(false)} aria-label="Đóng menu">✕</button>
+          </div>
+          
+          <div className="drawer-body">
+            <ul className="drawer-nav-list">
+              <li>
+                <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className={currentPath === '/' ? 'active' : ''}>TRANG CHỦ</Link>
+              </li>
+              <li>
+                <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className={currentPath === '/about' ? 'active' : ''}>GIỚI THIỆU</Link>
+              </li>
+              <li className="drawer-dropdown-item">
+                <div className="drawer-dropdown-header" onClick={() => toggleSubmenu('essential-oils')}>
+                  <span className={currentPath === '/products' && typeParam === 'essential-oils' ? 'active' : ''}>TINH DẦU</span>
+                  <span className={`arrow ${activeSubmenu === 'essential-oils' ? 'open' : ''}`}>▼</span>
+                </div>
+                <ul className={`drawer-submenu ${activeSubmenu === 'essential-oils' ? 'open' : ''}`}>
+                  <li><Link to="/products?type=essential-oils&category=Tinh dầu đơn" onClick={() => setIsMobileMenuOpen(false)}>Tinh dầu đơn</Link></li>
+                  <li><Link to="/products?type=essential-oils&category=Tinh dầu blend" onClick={() => setIsMobileMenuOpen(false)}>Tinh dầu blend</Link></li>
+                  <li><Link to="/products?type=essential-oils&category=Tinh dầu cho sức khỏe" onClick={() => setIsMobileMenuOpen(false)}>Tinh dầu cho sức khỏe</Link></li>
+                  <li><Link to="/products?type=essential-oils&category=Tinh dầu cho làm đẹp" onClick={() => setIsMobileMenuOpen(false)}>Tinh dầu cho làm đẹp</Link></li>
+                </ul>
+              </li>
+              <li className="drawer-dropdown-item">
+                <div className="drawer-dropdown-header" onClick={() => toggleSubmenu('products')}>
+                  <span className={currentPath === '/products' && typeParam !== 'essential-oils' ? 'active' : ''}>SẢN PHẨM</span>
+                  <span className={`arrow ${activeSubmenu === 'products' ? 'open' : ''}`}>▼</span>
+                </div>
+                <ul className={`drawer-submenu ${activeSubmenu === 'products' ? 'open' : ''}`}>
+                  <li><Link to="/products?category=Tinh dầu cho không gian" onClick={() => setIsMobileMenuOpen(false)}>Tinh dầu xông phòng</Link></li>
+                  <li><Link to="/products?category=Phụ kiện khuếch tán" onClick={() => setIsMobileMenuOpen(false)}>Máy khuếch tán</Link></li>
+                  <li><Link to="/products?category=Bộ quà tặng" onClick={() => setIsMobileMenuOpen(false)}>Hộp quà tặng</Link></li>
+                </ul>
+              </li>
+              <li>
+                <Link to="/articles" onClick={() => setIsMobileMenuOpen(false)} className={currentPath === '/articles' ? 'active' : ''}>KIẾN THỨC</Link>
+              </li>
+              <li>
+                <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={currentPath === '/contact' ? 'active' : ''}>LIÊN HỆ</Link>
+              </li>
+            </ul>
+            
+            <div className="drawer-footer">
+              <a href={`tel:${hotline.replace(/\./g, '')}`} className="drawer-hotline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{marginRight: '6px'}}>
+                  <path d="M6.62 10.79a15.15 15.15 0 0 0 6.57 6.57l2.2-2.2a1 1 0 0 1 .9-.27 11.36 11.36 0 0 0 3.58.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.58 1 1 0 0 1-.27.9l-2.18 2.2z" />
+                </svg>
+                Hotline: {hotline}
+              </a>
+              <div className="drawer-auth-links">
+                {user ? (
+                  <>
+                    <span className="drawer-welcome">Xin chào, <strong>{user.username}</strong></span>
+                    {user.role === 'admin' && (
+                      <a
+                        href={
+                          window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                            ? 'http://localhost:5174'
+                            : window.location.hostname.includes('vercel.app')
+                            ? 'https://tinh-dau-admin.vercel.app'
+                            : '/admin'
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="drawer-auth-btn admin-btn"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        🛡️ Trang Quản Trị
+                      </a>
+                    )}
+                    <button className="drawer-auth-btn logout-btn" onClick={() => { logout(); setIsMobileMenuOpen(false); navigate('/'); }}>
+                      Đăng xuất
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className="drawer-auth-btn" onClick={() => setIsMobileMenuOpen(false)}>Đăng nhập</Link>
+                    <Link to="/register" className="drawer-auth-btn" onClick={() => setIsMobileMenuOpen(false)}>Đăng ký</Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
   );
 };

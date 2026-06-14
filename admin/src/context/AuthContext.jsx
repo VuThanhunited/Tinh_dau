@@ -10,6 +10,13 @@ export const AuthProvider = ({ children }) => {
 
   const API_URL = import.meta.env.VITE_API_URL || (typeof window !== 'undefined' ? window.location.origin + '/api' : '/api');
 
+  // Logout handler
+  const logout = () => {
+    setUser(null);
+    setIsDemoMode(false);
+    localStorage.removeItem('essential_user');
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem('essential_user');
     if (storedUser) {
@@ -24,6 +31,23 @@ export const AuthProvider = ({ children }) => {
       }
     }
     setLoading(false);
+  }, []);
+
+  // Global fetch interceptor to handle 401 Unauthorized (e.g., expired or invalid session)
+  useEffect(() => {
+    const originalFetch = window.fetch;
+    window.fetch = async (...args) => {
+      const response = await originalFetch(...args);
+      const url = typeof args[0] === 'string' ? args[0] : (args[0] instanceof Request ? args[0].url : '');
+      if (response.status === 401 && !url.includes('/auth/login')) {
+        console.warn('Unauthorized request detected (401). Logging out...');
+        logout();
+      }
+      return response;
+    };
+    return () => {
+      window.fetch = originalFetch;
+    };
   }, []);
 
   // Login handler
@@ -89,12 +113,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout handler
-  const logout = () => {
-    setUser(null);
-    setIsDemoMode(false);
-    localStorage.removeItem('essential_user');
-  };
+
 
   // Update current user details
   const updateCurrentUserDetails = (updatedData) => {

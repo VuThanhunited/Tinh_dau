@@ -373,6 +373,42 @@ const Home = () => {
 
           {/* Main products area */}
           <div className="products-main">
+            {/* Mobile Categories Swiper */}
+            <div className="mobile-categories-slider">
+              <button
+                className={`mobile-category-pill ${!selectedCategory ? 'active' : ''}`}
+                onClick={() => {
+                  setSelectedCategory('');
+                  setTimeout(() => {
+                    const storeEl = document.getElementById('store-section');
+                    if (storeEl) storeEl.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
+              >
+                <span className="pill-icon">🍃</span>
+                <span className="pill-label">Tất cả</span>
+              </button>
+              {sidebarCategories.map((c, i) => (
+                <button
+                  key={i}
+                  className={`mobile-category-pill ${selectedCategory === c.label ? 'active' : ''}`}
+                  onClick={() => {
+                    setSelectedCategory(c.label);
+                    if (searchParamQuery) {
+                      setSearchParams({});
+                    }
+                    setTimeout(() => {
+                      const storeEl = document.getElementById('store-section');
+                      if (storeEl) storeEl.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }}
+                >
+                  <span className="pill-icon">{c.icon}</span>
+                  <span className="pill-label">{c.label}</span>
+                </button>
+              ))}
+            </div>
+
             {selectedCategory ? (
               <div className="product-category-title-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', width: '100%', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <h2 className="category-title" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#2D3748' }}>
