@@ -1,10 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { getImageUrl } from '../utils/image';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './Contact.css';
 
 const Contact = () => {
+  const { API_URL } = useContext(AuthContext);
+  const [contactConfig, setContactConfig] = useState(() => {
+    try {
+      const raw = localStorage.getItem('contactpage_settings');
+      if (raw) return JSON.parse(raw);
+    } catch (e) {
+      console.error(e);
+    }
+    return {
+      banner: {
+        title: 'LIÊN HỆ',
+        desc: 'Chúng tôi rất mong nhận được phản hồi của tất cả khách hàng. Mọi thông tin, thắc mắc đều được Essential Oil giải đáp. Hãy để lại thông tin ngay nhé!',
+        image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=600&q=80',
+      },
+      details: {
+        address: 'No7, Liền Kề 20-21 Khu Đất Dịch Vụ Vạn Phúc, Phường Vạn Phúc, Quận Hà Đông, Tp Hà Nội',
+        phone: '0833.356.xxx',
+        email: 'cskh@webdemo.com',
+        mediaEmail: 'cskh@webdemo.com',
+        facebookName: 'Tinh Dầu Tràm Hương Giang',
+        facebookLink: 'https://www.facebook.com/people/Tinh-D%E1%BA%A7u-Tr%C3%A0m-H%C6%B0%C6%A1ng-Giang/100067505340122/',
+      }
+    };
+  });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const fetchContactConfig = async () => {
+      try {
+        const res = await fetch(`${API_URL}/settings/contactpage_settings`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data) {
+            setContactConfig(prev => ({
+              ...prev,
+              ...data,
+              banner: { ...prev.banner, ...(data.banner || {}) },
+              details: { ...prev.details, ...(data.details || {}) }
+            }));
+            localStorage.setItem('contactpage_settings', JSON.stringify(data));
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to fetch Contact settings from database:', err);
+      }
+    };
+    fetchContactConfig();
+  }, [API_URL]);
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -63,21 +114,22 @@ const Contact = () => {
         <div className="container contact-banner-grid">
           <div className="contact-banner-text animate-fade-in">
             <span className="banner-breadcrumb">Trang chủ / Liên hệ</span>
-            <h1 className="banner-title">LIÊN HỆ</h1>
+            <h1 className="banner-title">{contactConfig.banner.title}</h1>
             <p className="banner-desc">
-              Chúng tôi rất mong nhận được phản hồi của tất cả khách hàng.<br />
-              Mọi thông tin, thắc mắc đều được Essential Oil giải đáp. Hãy để lại thông tin ngay nhé!
+              {contactConfig.banner.desc}
             </p>
           </div>
           {/* Banner Right Image Display representing Natural Herbs */}
-          <div className="contact-banner-visual">
-            <div className="herb-visual-wrapper">
-              <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=600&q=80" alt="Natural Herbs & Oils" className="herb-img" />
-              <div className="visual-circle circle-1">🌱</div>
-              <div className="visual-circle circle-2">💧</div>
-              <div className="visual-circle circle-3">🌿</div>
+          {contactConfig.banner.image && (
+            <div className="contact-banner-visual">
+              <div className="herb-visual-wrapper">
+                <img src={getImageUrl(contactConfig.banner.image)} alt="Natural Herbs & Oils" className="herb-img" />
+                <div className="visual-circle circle-1">🌱</div>
+                <div className="visual-circle circle-2">💧</div>
+                <div className="visual-circle circle-3">🌿</div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -100,7 +152,7 @@ const Contact = () => {
                 </div>
                 <div className="item-text-box">
                   <p className="item-value font-semibold">
-                    No7, Liền Kề 20-21 Khu Đất Dịch Vụ Vạn Phúc, Phường Vạn Phúc, Quận Hà Đông, Tp Hà Nội
+                    {contactConfig.details.address}
                   </p>
                 </div>
               </div>
@@ -113,7 +165,7 @@ const Contact = () => {
                   </svg>
                 </div>
                 <div className="item-text-box">
-                  <p className="item-value font-semibold">0833.356.xxx</p>
+                  <p className="item-value font-semibold">{contactConfig.details.phone}</p>
                 </div>
               </div>
 
@@ -126,7 +178,7 @@ const Contact = () => {
                   </svg>
                 </div>
                 <div className="item-text-box">
-                  <p className="item-value font-semibold">cskh@webdemo.com</p>
+                  <p className="item-value font-semibold">{contactConfig.details.email}</p>
                 </div>
               </div>
             </div>
@@ -140,7 +192,7 @@ const Contact = () => {
                 </svg>
               </div>
               <div className="item-text-box">
-                <p className="item-value font-semibold">cskh@webdemo.com</p>
+                <p className="item-value font-semibold">{contactConfig.details.mediaEmail}</p>
               </div>
             </div>
 
@@ -150,8 +202,8 @@ const Contact = () => {
                 <span className="facebook-icon-text">f</span>
               </div>
               <div className="item-text-box">
-                <a href="https://www.facebook.com/people/Tinh-D%E1%BA%A7u-Tr%C3%A0m-H%C6%B0%C6%A1ng-Giang/100067505340122/" target="_blank" rel="noopener noreferrer" className="fanpage-link font-semibold">
-                  Tinh Dầu Tràm Hương Giang
+                <a href={contactConfig.details.facebookLink} target="_blank" rel="noopener noreferrer" className="fanpage-link font-semibold">
+                  {contactConfig.details.facebookName}
                 </a>
               </div>
             </div>

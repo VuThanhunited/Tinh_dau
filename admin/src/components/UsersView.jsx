@@ -155,32 +155,8 @@ const UsersView = ({ API_URL, user }) => {
       }
       setIsModalOpen(false);
     } catch (err) {
-      console.warn("Backend User CRUD failed, executing mock CRUD in localStorage:", err.message);
-
-      // Local mock CRUD
-      let updatedUsers = [...users];
-      if (modalMode === 'create') {
-        const mockNewUser = {
-          _id: 'mock-user-' + Date.now(),
-          username: formData.username,
-          email: formData.email,
-          role: formData.role,
-          createdAt: new Date().toISOString()
-        };
-        updatedUsers = [mockNewUser, ...updatedUsers];
-        triggerToast('success', `[Thử nghiệm] Đã tạo tài khoản "${formData.username}" thành công!`);
-      } else {
-        updatedUsers = updatedUsers.map(u => 
-          u._id === currentUserId 
-            ? { ...u, username: formData.username, email: formData.email, role: formData.role } 
-            : u
-        );
-        triggerToast('success', `[Thử nghiệm] Đã sửa tài khoản "${formData.username}" thành công!`);
-      }
-
-      setUsers(updatedUsers);
-      localStorage.setItem('essential_local_users', JSON.stringify(updatedUsers));
-      setIsModalOpen(false);
+      console.error("Lỗi CRUD người dùng:", err.message);
+      triggerToast('error', `Thao tác thất bại: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -212,12 +188,8 @@ const UsersView = ({ API_URL, user }) => {
       setUsers(users.filter(u => u._id !== targetUser._id));
       triggerToast('success', `Đã xóa tài khoản "${targetUser.username}" thành công.`);
     } catch (err) {
-      console.warn("Backend User Delete failed, executing mock delete in localStorage:", err.message);
-
-      const updatedUsers = users.filter(u => u._id !== targetUser._id);
-      setUsers(updatedUsers);
-      localStorage.setItem('essential_local_users', JSON.stringify(updatedUsers));
-      triggerToast('success', `[Thử nghiệm] Đã xóa tài khoản "${targetUser.username}" thành công.`);
+      console.error("Lỗi xóa người dùng:", err.message);
+      triggerToast('error', `Xóa tài khoản thất bại: ${err.message}`);
     } finally {
       setLoading(false);
     }

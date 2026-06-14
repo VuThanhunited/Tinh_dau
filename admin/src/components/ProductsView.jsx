@@ -177,31 +177,8 @@ const ProductsView = ({ API_URL, user }) => {
       }
       setIsModalOpen(false);
     } catch (err) {
-      console.warn("Backend CRUD failed, executing mock CRUD in localStorage:", err.message);
-      
-      // Fallback CRUD
-      let updatedProducts = [...products];
-      if (modalMode === 'create') {
-        const mockNewProduct = {
-          ...payload,
-          _id: 'mock-prod-' + Date.now(),
-          discountPercentage: Math.round(((payload.originalPrice - payload.salePrice) / payload.originalPrice) * 100),
-          createdAt: new Date().toISOString()
-        };
-        updatedProducts = [mockNewProduct, ...updatedProducts];
-        triggerToast('success', `[Thử nghiệm] Đã thêm sản phẩm "${payload.name}" thành công!`);
-      } else {
-        updatedProducts = updatedProducts.map(p => 
-          p._id === currentProductId 
-            ? { ...p, ...payload, discountPercentage: Math.round(((payload.originalPrice - payload.salePrice) / payload.originalPrice) * 100) } 
-            : p
-        );
-        triggerToast('success', `[Thử nghiệm] Đã sửa sản phẩm "${payload.name}" thành công!`);
-      }
-      
-      setProducts(updatedProducts);
-      localStorage.setItem('essential_local_products', JSON.stringify(updatedProducts));
-      setIsModalOpen(false);
+      console.error("Lỗi CRUD sản phẩm:", err.message);
+      triggerToast('error', `Thao tác thất bại: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -227,12 +204,8 @@ const ProductsView = ({ API_URL, user }) => {
       setProducts(products.filter(p => p._id !== product._id));
       triggerToast('success', `Đã xóa sản phẩm "${product.name}" thành công.`);
     } catch (err) {
-      console.warn("Backend Delete failed, executing mock delete in localStorage:", err.message);
-      
-      const updatedProducts = products.filter(p => p._id !== product._id);
-      setProducts(updatedProducts);
-      localStorage.setItem('essential_local_products', JSON.stringify(updatedProducts));
-      triggerToast('success', `[Thử nghiệm] Đã xóa sản phẩm "${product.name}" thành công.`);
+      console.error("Lỗi xóa sản phẩm:", err.message);
+      triggerToast('error', `Xóa sản phẩm thất bại: ${err.message}`);
     } finally {
       setLoading(false);
     }

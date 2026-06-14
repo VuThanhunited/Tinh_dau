@@ -1,0 +1,13 @@
+/* CSS for AboutpageView */
+.core-value-editor-card {
+  transition: all 0.2s ease-in-out;
+}
+.core-value-editor-card:hover {
+  border-color: #5E35B1 !important;
+  box-shadow: 0 4px 12px rgba(94, 53, 177, 0.08);
+}
+.hp-preview-container {
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}

@@ -95,59 +95,39 @@ const Header = () => {
 
     setSettingsLoading(true);
     try {
-      if (user.isDemo) {
-        // Demo Mode Fallback
-        const updatedInfo = {
-          username: settingsFormData.username,
-          email: settingsFormData.email
-        };
-        updateCurrentUserDetails(updatedInfo);
-
-        // Update list of users in demo LocalStorage
-        const localUsers = localStorage.getItem('essential_local_users');
-        if (localUsers) {
-          const parsed = JSON.parse(localUsers);
-          const updatedList = parsed.map(u => u._id === user._id ? { ...u, username: settingsFormData.username, email: settingsFormData.email } : u);
-          localStorage.setItem('essential_local_users', JSON.stringify(updatedList));
-        }
-
-        setSettingsSuccess('Cập nhật tài khoản Admin Demo thành công!');
-        setTimeout(() => setIsSettingsOpen(false), 2000);
-      } else {
-        // Real API call
-        const payload = {
-          username: settingsFormData.username,
-          email: settingsFormData.email,
-          role: user.role
-        };
-        if (settingsFormData.password) {
-          payload.password = settingsFormData.password;
-        }
-
-        const response = await fetch(`${API_URL}/users/${user._id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${user.token}`
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.message || 'Cập nhật thông tin tài khoản thất bại.');
-        }
-
-        // Sync local context state
-        updateCurrentUserDetails({
-          username: data.username,
-          email: data.email
-        });
-
-        setSettingsSuccess('Đã cập nhật thông tin tài khoản quản trị thành công!');
-        setSettingsFormData(prev => ({ ...prev, password: '', confirmPassword: '' }));
-        setTimeout(() => setIsSettingsOpen(false), 2000);
+      // Real API call
+      const payload = {
+        username: settingsFormData.username,
+        email: settingsFormData.email,
+        role: user.role
+      };
+      if (settingsFormData.password) {
+        payload.password = settingsFormData.password;
       }
+
+      const response = await fetch(`${API_URL}/users/${user._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Cập nhật thông tin tài khoản thất bại.');
+      }
+
+      // Sync local context state
+      updateCurrentUserDetails({
+        username: data.username,
+        email: data.email
+      });
+
+      setSettingsSuccess('Đã cập nhật thông tin tài khoản quản trị thành công!');
+      setSettingsFormData(prev => ({ ...prev, password: '', confirmPassword: '' }));
+      setTimeout(() => setIsSettingsOpen(false), 2000);
     } catch (err) {
       setSettingsError(err.message);
     } finally {

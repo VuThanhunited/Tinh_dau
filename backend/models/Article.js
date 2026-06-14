@@ -27,6 +27,14 @@ const articleSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Article full content is required'],
     },
+    badge: {
+      type: String,
+      default: '100% NGUYÊN CHẤT',
+    },
+    badgeIcon: {
+      type: String,
+      default: '🌿',
+    },
   },
   {
     timestamps: true,

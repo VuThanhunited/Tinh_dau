@@ -15,6 +15,21 @@ const Articles = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBadge, setSelectedBadge] = useState('Tất cả');
 
+  const [bannerConfig, setBannerConfig] = useState(() => {
+    try {
+      const raw = localStorage.getItem('articlespage_settings');
+      if (raw) return JSON.parse(raw);
+    } catch (e) {
+      console.error(e);
+    }
+    return {
+      eyebrow: 'CHIA SẺ KINH NGHIỆM',
+      title: 'Kiến Thức Tinh Dầu',
+      desc: 'Khám phá các bí quyết sử dụng tinh dầu hiệu quả cho sức khỏe, làm đẹp và không gian sống xanh sạch tươi mát.',
+      image: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1200&q=80',
+    };
+  });
+
   const demoArticles = [
     { _id: 'da1', title: 'Tinh dầu oải hương có tác dụng gì? Lợi ích và cách sử dụng', image: 'https://images.unsplash.com/photo-1602928321679-560bb453f190?auto=format&fit=crop&w=500&q=80', date: '15/03/2026', description: 'Tìm hiểu các tác dụng của tinh dầu oải hương đối với sức khỏe và giấc ngủ ngon sâu giấc.', badge: '100% NGUYÊN CHẤT', badgeIcon: '🌿' },
     { _id: 'da2', title: 'Tinh dầu tràm trà – "Kháng sinh tự nhiên" cho làn da', image: 'https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&w=500&q=80', date: '10/06/2026', description: 'Tinh dầu tràm trà nổi tiếng với đặc tính kháng khuẩn vượt trội hỗ trợ trị mụn hiệu quả.', badge: 'NGUỒN GỐC RÕ RÀNG', badgeIcon: '📦' },
@@ -40,7 +55,27 @@ const Articles = () => {
         setLoading(false);
       }
     };
+
+    const fetchBannerConfig = async () => {
+      try {
+        const res = await fetch(`${API_URL}/settings/articlespage_settings`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data) {
+            setBannerConfig(prev => ({
+              ...prev,
+              ...data
+            }));
+            localStorage.setItem('articlespage_settings', JSON.stringify(data));
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to fetch articles banner config:', err);
+      }
+    };
+
     loadArticles();
+    fetchBannerConfig();
   }, [API_URL]);
 
   const getFilteredArticles = () => {
@@ -76,11 +111,11 @@ const Articles = () => {
       </div>
 
       {/* Title Banner */}
-      <section className="articles-hero-banner" style={{ backgroundImage: 'linear-gradient(rgba(126, 87, 194, 0.75), rgba(94, 53, 177, 0.9)), url("https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1200&q=80")' }}>
+      <section className="articles-hero-banner" style={{ backgroundImage: `linear-gradient(rgba(126, 87, 194, 0.75), rgba(94, 53, 177, 0.9)), url("${getImageUrl(bannerConfig.image)}")` }}>
         <div className="container hero-banner-content">
-          <span className="hero-eyebrow">CHIA SẺ KINH NGHIỆM</span>
-          <h1 className="hero-title">Kiến Thức Tinh Dầu</h1>
-          <p className="hero-desc">Khám phá các bí quyết sử dụng tinh dầu hiệu quả cho sức khỏe, làm đẹp và không gian sống xanh sạch tươi mát.</p>
+          <span className="hero-eyebrow">{bannerConfig.eyebrow}</span>
+          <h1 className="hero-title">{bannerConfig.title}</h1>
+          <p className="hero-desc">{bannerConfig.desc}</p>
         </div>
       </section>
 

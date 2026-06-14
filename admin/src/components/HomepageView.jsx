@@ -174,8 +174,7 @@ const HomepageView = () => {
   };
 
   const handleSave = async () => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
-    
+    setLoading(true);
     try {
       const response = await fetch(`${API_URL}/settings/homepage_settings`, {
         method: 'PUT',
@@ -187,28 +186,29 @@ const HomepageView = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update DB setting');
+        const data = await response.json();
+        throw new Error(data.message || 'Không thể lưu cài đặt vào cơ sở dữ liệu');
       }
 
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
       setSaved(true);
       setDirty(false);
       setTimeout(() => setSaved(false), 3000);
     } catch (err) {
-      console.warn('Backend save failed, using local storage fallback:', err.message);
-      setSaved(true);
-      setDirty(false);
-      setTimeout(() => setSaved(false), 3000);
+      console.error('Lỗi lưu cấu hình trang chủ:', err.message);
+      alert(`Lưu cấu hình thất bại: ${err.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleReset = async () => {
     if (!window.confirm('Đặt lại tất cả về giá trị mặc định? Hành động này không thể hoàn tác.')) return;
     const def = JSON.parse(JSON.stringify(DEFAULT_HOMEPAGE_CONFIG));
-    setConfig(def);
-    localStorage.removeItem(STORAGE_KEY);
 
+    setLoading(true);
     try {
-      await fetch(`${API_URL}/settings/homepage_settings`, {
+      const response = await fetch(`${API_URL}/settings/homepage_settings`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -216,12 +216,23 @@ const HomepageView = () => {
         },
         body: JSON.stringify({ value: def })
       });
-    } catch (err) {
-      console.warn('Backend reset failed:', err.message);
-    }
 
-    setSaved(false);
-    setDirty(false);
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Không thể đặt lại cài đặt');
+      }
+
+      setConfig(def);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(def));
+      setSaved(false);
+      setDirty(false);
+      alert('Đã đặt lại cấu hình về mặc định thành công!');
+    } catch (err) {
+      console.error('Lỗi đặt lại cấu hình trang chủ:', err.message);
+      alert(`Đặt lại cấu hình thất bại: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const SECTIONS = [

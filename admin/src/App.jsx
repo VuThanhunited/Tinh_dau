@@ -7,6 +7,9 @@ import DashboardView from './components/DashboardView';
 import ProductsView from './components/ProductsView';
 import UsersView from './components/UsersView';
 import HomepageView from './components/HomepageView';
+import AboutpageView from './components/AboutpageView';
+import ArticlespageView from './components/ArticlespageView';
+import ContactpageView from './components/ContactpageView';
 import './App.css';
 
 // Admin Core Layout Component
@@ -66,6 +69,36 @@ const AdminLayout = () => {
                 <span>Giao diện trang chủ</span>
               </button>
             </li>
+            <li>
+              <button 
+                className={`sidebar-nav-item ${activeTab === 'aboutpage' ? 'active' : ''}`}
+                onClick={() => setActiveTab('aboutpage')}
+                id="sidebar-nav-aboutpage"
+              >
+                <span className="sidebar-nav-item-icon">📖</span>
+                <span>Giao diện giới thiệu</span>
+              </button>
+            </li>
+            <li>
+              <button 
+                className={`sidebar-nav-item ${activeTab === 'articlespage' ? 'active' : ''}`}
+                onClick={() => setActiveTab('articlespage')}
+                id="sidebar-nav-articlespage"
+              >
+                <span className="sidebar-nav-item-icon">📚</span>
+                <span>Giao diện kiến thức</span>
+              </button>
+            </li>
+            <li>
+              <button 
+                className={`sidebar-nav-item ${activeTab === 'contactpage' ? 'active' : ''}`}
+                onClick={() => setActiveTab('contactpage')}
+                id="sidebar-nav-contactpage"
+              >
+                <span className="sidebar-nav-item-icon">📞</span>
+                <span>Giao diện liên hệ</span>
+              </button>
+            </li>
           </ul>
 
           {/* Footer logout */}
@@ -80,14 +113,6 @@ const AdminLayout = () => {
         {/* Right Active Viewport */}
         <main className="admin-viewport">
           
-          {/* Demo/Test Mode banner */}
-          {user.isDemo && (
-            <div className="demo-mode-alert animate-fade-in">
-              <span className="demo-badge-pill">Demo Mode</span>
-              <span>Đang kết nối ở chế độ Thử nghiệm Admin. Mọi thay đổi CRUD sẽ được mô phỏng trực tiếp qua LocalStorage.</span>
-            </div>
-          )}
-
           {/* Conditional View Rendering */}
           {activeTab === 'dashboard' && (
             <DashboardView API_URL={API_URL} user={user} />
@@ -100,6 +125,15 @@ const AdminLayout = () => {
           )}
           {activeTab === 'homepage' && (
             <HomepageView />
+          )}
+          {activeTab === 'aboutpage' && (
+            <AboutpageView />
+          )}
+          {activeTab === 'articlespage' && (
+            <ArticlespageView />
+          )}
+          {activeTab === 'contactpage' && (
+            <ContactpageView />
           )}
         </main>
       </div>

@@ -1,0 +1,21 @@
+/* CSS for ArticlespageView */
+.articles-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+.modal-content {
+  animation: modalEnter 0.3s ease-out;
+}
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

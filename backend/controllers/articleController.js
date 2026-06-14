@@ -41,7 +41,7 @@ export const getArticleById = async (req, res) => {
 // @access  Private/Admin
 export const createArticle = async (req, res) => {
   try {
-    const { title, image, description, content, date } = req.body;
+    const { title, image, description, content, date, badge, badgeIcon } = req.body;
 
     if (!title || !image || !description || !content) {
       return res.status(400).json({ message: 'Please provide all required fields (title, image, description, content)' });
@@ -53,6 +53,8 @@ export const createArticle = async (req, res) => {
       description,
       content,
       date: date || undefined,
+      badge: badge || undefined,
+      badgeIcon: badgeIcon || undefined,
     });
 
     const createdArticle = await article.save();
@@ -67,7 +69,7 @@ export const createArticle = async (req, res) => {
 // @access  Private/Admin
 export const updateArticle = async (req, res) => {
   try {
-    const { title, image, description, content, date } = req.body;
+    const { title, image, description, content, date, badge, badgeIcon } = req.body;
 
     const article = await Article.findById(req.params.id);
 
@@ -77,6 +79,8 @@ export const updateArticle = async (req, res) => {
       article.description = description !== undefined ? description : article.description;
       article.content = content !== undefined ? content : article.content;
       article.date = date !== undefined ? date : article.date;
+      article.badge = badge !== undefined ? badge : article.badge;
+      article.badgeIcon = badgeIcon !== undefined ? badgeIcon : article.badgeIcon;
 
       const updatedArticle = await article.save();
       res.json(updatedArticle);
